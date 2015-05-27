@@ -50,7 +50,7 @@ public class SubRoutines {
 
 	public static void main(String ... a) throws Exception{
 		
-		AS400 as400sys = new AS400("400sys");
+		AS400 as400sys = new AS400("gmcc400");
 		ObjectDescription d = new ObjectDescription(as400sys,"/QSYS.LIB/%LIBL%.LIB/PPR900.PGM");
 		System.out.println(d.getValue(ObjectDescription.TEXT_DESCRIPTION));
 		as400sys.disconnectAllServices();
