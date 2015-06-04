@@ -240,7 +240,6 @@ public class SubRoutines {
 
 		
 
-		@Override
 		public Map<String, String> getComponentAttributes(String arg0) {
 			if(srDescriptions.containsKey(arg0) || calls.contains(arg0)){
 				HashMap<String, String> h = new HashMap<String,String>();
@@ -256,7 +255,6 @@ public class SubRoutines {
 			return null;
 		}
 
-		@Override
 		public String getVertexName(String arg0) {
 			return arg0.replace('#','3').replaceAll("[^a-zA-Z0-9]","x");
 		}
