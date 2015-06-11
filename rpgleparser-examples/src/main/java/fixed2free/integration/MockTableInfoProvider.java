@@ -1,9 +1,15 @@
 package fixed2free.integration;
 
+import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockTableInfoProvider implements TableInfoProvider {
+import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.JobDescription;
+
+public class MockTableInfoProvider implements IFileInfoProvider {
 	
 	private List<ColumnInfo> doIncmpyp(String tableName, String schemaName) {
 		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
@@ -2480,6 +2486,38 @@ public class MockTableInfoProvider implements TableInfoProvider {
 			result = doIntslip(tableName, schemaName);
 		}
 		return result;
+	}
+
+	public List<ColumnInfo> getColumns(String tableName,
+			String recordFormatName, String schemaName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void populateData(String tableName) {
+		//Do nothing 
+	}
+
+	public void populateData(String tableName, String recordFormatName) {
+		//Do nothing 
+		
+	}
+
+	public void populateData(String tableName, String recordFormatName,
+			String libraryName) {
+		//Do nothing 
+	}
+
+	public void setLibraryList(JobDescription jobd)
+			throws PropertyVetoException, AS400SecurityException,
+			ErrorCompletingRequestException, IOException, InterruptedException {
+		//Do nothing 
+	}
+
+	public void setLibraryList(List<String> libl) throws PropertyVetoException,
+			AS400SecurityException, ErrorCompletingRequestException,
+			IOException, InterruptedException {
+		//Do nothing 
 	}
 
 }

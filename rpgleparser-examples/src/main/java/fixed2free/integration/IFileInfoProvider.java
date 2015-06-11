@@ -1,8 +1,14 @@
 package fixed2free.integration;
 
+import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.util.List;
 
-public interface TableInfoProvider {
+import com.ibm.as400.access.AS400SecurityException;
+import com.ibm.as400.access.ErrorCompletingRequestException;
+import com.ibm.as400.access.JobDescription;
+
+public interface IFileInfoProvider {
 	// DB2i SQL Datatypes
 	public static final String SQL_BIGINT = "BIGINT";
 	public static final String SQL_INTEGER = "INTEGER";
@@ -28,6 +34,23 @@ public interface TableInfoProvider {
 	public static final String SQL_DOUBLE = "DOUBLE PRECISION";
 	public static final String SQL_REAL = "REAL";
 
-	List<ColumnInfo> getColumns(String tableName);
-	List<ColumnInfo> getColumns(String tableName, String schemaName);
+	public List<ColumnInfo> getColumns(String tableName, String recordFormatName);
+
+	public List<ColumnInfo> getColumns(String tableName,
+			String recordFormatName, String schemaName);
+
+	public void populateData(String tableName);
+
+	public void populateData(String tableName, String recordFormatName);
+
+	public void populateData(String tableName, String recordFormatName,
+			String libraryName);
+
+	public void setLibraryList(JobDescription jobd)
+			throws PropertyVetoException, AS400SecurityException,
+			ErrorCompletingRequestException, IOException, InterruptedException;
+
+	public void setLibraryList(List<String> libl) throws PropertyVetoException,
+			AS400SecurityException, ErrorCompletingRequestException,
+			IOException, InterruptedException;
 }

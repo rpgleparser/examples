@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fixed2free.integration.ColumnInfo;
-import fixed2free.integration.TableInfoProvider;
+import fixed2free.integration.IFileInfoProvider;
 
 public class Symbol implements Comparator<Symbol>{
 	public static final String CAT_ARRAY_ELEMENT_COUNT = "ARRAY_ELEMS";
@@ -77,67 +77,67 @@ public class Symbol implements Comparator<Symbol>{
 	public static final String SO_O_SPECS = "O-SPECS";
 
 	public static void sqlAttr2rpg(ColumnInfo col, Symbol sym) {
-		if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_BIGINT)){
+		if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_BIGINT)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(20));
 			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(0));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_INTEGER)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_INTEGER)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(10));
 			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(0));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_SMALLINT)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_SMALLINT)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(5));
 			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(0));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_DECIMAL)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_DECIMAL)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_PACKED);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(col.getNumericScale()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_NUMERIC)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_NUMERIC)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_ZONED);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(col.getNumericScale()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_DOUBLE)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_DOUBLE)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_FLOAT);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_FLOAT)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_FLOAT)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_FLOAT);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_REAL	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_REAL	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_FLOAT);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_CHAR	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_CHAR	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_ALPHANUM);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_VARCHAR	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_VARCHAR	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_ALPHANUM);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
 			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_GRAPHIC	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_GRAPHIC	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_GRAPHIC);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_VARG	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_VARG	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_GRAPHIC);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
 			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_BINARY	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_BINARY	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_BINARY);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_VARBIN	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_VARBIN	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_BINARY);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_DATE	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_DATE	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_DATE);
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_TIME	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_TIME	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_TIME);
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_TIMESTMP	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_TIMESTMP	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_TIMESTAMP);
-		} else if (col.getDataType().equalsIgnoreCase(TableInfoProvider.SQL_ROWID	)){
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_ROWID	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_ALPHANUM);
 			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
 			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
@@ -145,41 +145,41 @@ public class Symbol implements Comparator<Symbol>{
 	}
 	public static String sqlDataType2rpg(String dataType) {
 		String result = null;
-		if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_BIGINT)){
+		if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_BIGINT)){
 			result = DT_INTEGER;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_INTEGER)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_INTEGER)){
 			result = DT_INTEGER;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_SMALLINT)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_SMALLINT)){
 			result = DT_INTEGER;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_DECIMAL)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_DECIMAL)){
 			result = DT_PACKED;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_NUMERIC)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_NUMERIC)){
 			result = DT_ZONED;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_DOUBLE)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_DOUBLE)){
 			result = DT_FLOAT;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_FLOAT)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_FLOAT)){
 			result = DT_FLOAT;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_REAL	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_REAL	)){
 			result = DT_FLOAT;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_CHAR	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_CHAR	)){
 			result = DT_ALPHANUM;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_VARCHAR	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_VARCHAR	)){
 			result = DT_ALPHANUM;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_GRAPHIC	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_GRAPHIC	)){
 			result = DT_GRAPHIC;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_VARG	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_VARG	)){
 			result = DT_GRAPHIC;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_BINARY	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_BINARY	)){
 			result = DT_BINARY;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_VARBIN	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_VARBIN	)){
 			result = DT_BINARY;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_DATE	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_DATE	)){
 			result = DT_DATE;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_TIME	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_TIME	)){
 			result = DT_TIME;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_TIMESTMP	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_TIMESTMP	)){
 			result = DT_TIMESTAMP;
-		} else if (dataType.equalsIgnoreCase(TableInfoProvider.SQL_ROWID	)){
+		} else if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_ROWID	)){
 			result = DT_ALPHANUM;
 		}
 		return result;

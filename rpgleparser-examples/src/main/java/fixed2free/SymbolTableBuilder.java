@@ -65,14 +65,14 @@ import org.rpgleparser.RpgParser.ResultTypeContext;
 import examples.loggingListener.LoggingListener;
 import fixed2free.integration.ColumnInfo;
 import fixed2free.integration.MockTableInfoProvider;
-import fixed2free.integration.TableInfoProvider;
+import fixed2free.integration.IFileInfoProvider;
 
 public class SymbolTableBuilder extends LoggingListener {
 	private Scope currentScope;
 	private Scope global;
 	private String lastSpec = "";
 	private SymbolTable st;
-	private TableInfoProvider tip;
+	private IFileInfoProvider tip;
 	private Vocabulary voc;
 	private CommonTokenStream ts;
 	
