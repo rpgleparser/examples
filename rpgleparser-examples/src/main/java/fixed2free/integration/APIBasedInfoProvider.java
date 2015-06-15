@@ -11,9 +11,7 @@ import org.rpgleparser.api.ListApiCallback;
 import org.rpgleparser.api.LFLD.FLDL0100;
 import org.rpgleparser.api.LFLD.QUSLFLD;
 import org.rpgleparser.api.LRCD.QUSLRCD;
-import org.rpgleparser.api.LRCD.RCDL0100;
 import org.rpgleparser.api.LRCD.RCDL0200;
-import org.rpgleparser.api.OBJL.OBJL0100;
 import org.rpgleparser.api.OBJL.OBJL0200;
 import org.rpgleparser.api.OBJL.QUSLOBJ;
 
@@ -48,17 +46,16 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 
 	private String recordFormatName;
 	private int fieldNumber;
-
-	public APIBasedInfoProvider() {
-		theAS400 = new AS400();
-		jobRelated = new ProgramCall(theAS400);
-		liblist.setAS400(theAS400);
-		objList = new QUSLOBJ(theAS400);
-		fldList = new QUSLFLD(theAS400);
-		recList = new QUSLRCD(theAS400);
-
+	
+	public static void main(String[] args){
+		APIBasedInfoProvider myObj = new APIBasedInfoProvider();
+		myObj.setSystem("DEV400");
+		myObj.setUserID("EWILSON");
+		myObj.setFileName("INWCTLP");
+		myObj.setLibraryName("*LIBL");
+		myObj.resolveObject();
 		try {
-			liblist.setManagedJob(jobRelated.getServerJob());
+			myObj.liblist.setManagedJob(myObj.jobRelated.getServerJob());
 		} catch (AS400SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,6 +69,17 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.exit(0);
+	}
+
+	public APIBasedInfoProvider() {
+		theAS400 = new AS400();
+		jobRelated = new ProgramCall(theAS400);
+		liblist.setAS400(theAS400);
+		objList = new QUSLOBJ(theAS400);
+		fldList = new QUSLFLD(theAS400);
+		recList = new QUSLRCD(theAS400);
+
 	}
 
 	public APIBasedInfoProvider(AS400 as400) {
@@ -142,7 +150,7 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 	public void resolveObject() {
 		currentState = STATE_OBJECT_RESOLUTION;
 
-		objList.setDesiredFormat(QUSLOBJ.OBJ0100_FORMAT);
+		objList.setDesiredFormat(QUSLOBJ.OBJ0200_FORMAT);
 		objList.setSearchObjectName(fileName);
 		if (libraryName == null) {
 			libraryName = "*LIBL";
@@ -165,6 +173,7 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 		recList.setUserSpaceLibrary("QTEMP");
 		recList.setUserSpaceName("RECLSTSPC");
 		recList.setUserSpaceSize(1024);
+		recList.getTheListHandler().registerCallback(this);
 		recList.dowork();
 		
 		currentState = STATE_FIELD_RESOLUTION;
@@ -179,6 +188,8 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 			fldList.setUserSpaceLib("QTEMP");
 			fldList.setUserSpaceName("FLDLSTSPC");
 			fldList.setUserSpaceInitialSize(1024);
+			fldList.getTheListHandler().registerCallback(this);
+			fieldNumber = 1;
 			fldList.dowork();
 		}
 		fieldNumber = 0;
@@ -210,6 +221,9 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 
 	public void setPassword(String password) {
 		this.password = password;
+		if (! theAS400.isConnected()){
+			theAS400.setPassword(password);
+		}
 	}
 
 	public void setRecordFormatName(String recordFormatName) {
@@ -218,10 +232,24 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 
 	public void setSystem(String system) {
 		this.system = system;
+		if (! theAS400.isConnected()){
+			try {
+				theAS400.setSystemName(system);
+			} catch (PropertyVetoException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void setUserID(String userID) {
 		this.userID = userID;
+		if (! theAS400.isConnected()){
+			try {
+				theAS400.setUserId(userID);
+			} catch (PropertyVetoException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public boolean processEntry(byte[] listEntry) {
