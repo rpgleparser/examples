@@ -9,8 +9,12 @@ import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.JobDescription;
 
-public class MockTableInfoProvider implements IFileInfoProvider {
+public class MockFileInfoProvider implements IFileInfoProvider {
 	
+	private String tableName;
+	private String recordFormatName;
+	private String libraryName;
+
 	private List<ColumnInfo> doIncmpyp(String tableName, String schemaName) {
 		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
 		result.add(new ColumnInfo("CYCMPY", tableName, "DFTOWNER", 1,
@@ -2462,50 +2466,21 @@ public class MockTableInfoProvider implements IFileInfoProvider {
 
 	}
 
-	public List<ColumnInfo> getColumns(String tableName) {
-		return getColumns(tableName, "THELIB");
-	}
-
-	public List<ColumnInfo> getColumns(String tableName, String schemaName) {
-		List<ColumnInfo> result = null;
-		if (tableName.equalsIgnoreCase("INDATEP")) {
-			result = doIndatep(tableName, schemaName);
-		} else if (tableName.equalsIgnoreCase("INWCTLP")
-				|| tableName.equalsIgnoreCase("INWCTL32")
-				|| tableName.equalsIgnoreCase("INWCTL34")
-				|| tableName.equalsIgnoreCase("INWCTL35")) {
-			result = doInwctlp(tableName, schemaName);
-		} else if (tableName.equalsIgnoreCase("INDDESP")) {
-			result = doInddesp(tableName, schemaName);
-		} else if (tableName.equalsIgnoreCase("INCMPYP")
-				|| tableName.equalsIgnoreCase("INCMPY01")) {
-			result = doIncmpyp(tableName, schemaName);
-		} else if (tableName.equalsIgnoreCase("INPSLI30")) {
-			result = doInpslip(tableName, schemaName);
-		} else if (tableName.equalsIgnoreCase("INTSLIP")){
-			result = doIntslip(tableName, schemaName);
-		}
-		return result;
-	}
-
-	public List<ColumnInfo> getColumns(String tableName,
-			String recordFormatName, String schemaName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void populateData(String tableName) {
-		//Do nothing 
+		this.tableName = tableName;
 	}
 
 	public void populateData(String tableName, String recordFormatName) {
-		//Do nothing 
-		
+		this.tableName = tableName;
+		this.recordFormatName = recordFormatName;
 	}
 
 	public void populateData(String tableName, String recordFormatName,
 			String libraryName) {
-		//Do nothing 
+		this.tableName = tableName;
+		this.recordFormatName = recordFormatName;
+		this.libraryName = libraryName;
 	}
 
 	public void setLibraryList(JobDescription jobd)
@@ -2518,6 +2493,53 @@ public class MockTableInfoProvider implements IFileInfoProvider {
 			AS400SecurityException, ErrorCompletingRequestException,
 			IOException, InterruptedException {
 		//Do nothing 
+	}
+
+	public FileObject getColumns() {
+		FileObject result = new FileObject();
+		result.setFileName(tableName);
+		result.setLibraryName(libraryName);
+		RecordFormat theRec = new RecordFormat();
+		
+		
+		if (tableName.equalsIgnoreCase("INDATEP")) {
+			theRec.setFields(doIndatep(tableName, libraryName));
+			theRec.setName("INDATER");
+			theRec.setRecordFormatID("4B13AA9698166");
+			theRec.setDescription("");
+		} else if (tableName.equalsIgnoreCase("INWCTLP")
+				|| tableName.equalsIgnoreCase("INWCTL32")
+				|| tableName.equalsIgnoreCase("INWCTL34")
+				|| tableName.equalsIgnoreCase("INWCTL35")) {
+			theRec.setName("INWCTLR");
+			theRec.setRecordFormatID("37DF503273004");
+			theRec.setDescription("");
+			theRec.setFields(doInwctlp(tableName, libraryName));
+		} else if (tableName.equalsIgnoreCase("INDDESP")) {
+			theRec.setName("INDDESR");
+			theRec.setRecordFormatID("324E6BBE2006A");
+			theRec.setDescription("");
+			theRec.setFields(doInddesp(tableName, libraryName));
+		} else if (tableName.equalsIgnoreCase("INCMPYP")
+				|| tableName.equalsIgnoreCase("INCMPY01")) {
+			theRec.setName("INCMPYR");
+			theRec.setRecordFormatID("4C80D27B5BD2B");
+			theRec.setDescription("");
+			theRec.setFields(doIncmpyp(tableName, libraryName));
+		} else if (tableName.equalsIgnoreCase("INPSLI30")) {
+			theRec.setName("INPSLIR");
+			theRec.setRecordFormatID("41953557DF254");
+			theRec.setDescription("");
+			theRec.setFields(doInpslip(tableName, libraryName));
+		} else if (tableName.equalsIgnoreCase("INTSLIP")){
+			theRec.setName("INPSLIR");
+			theRec.setRecordFormatID("41953557DF254");
+			theRec.setDescription("");
+			theRec.setFields(doIntslip(tableName, libraryName));
+		}
+		result.addRecordFormat(theRec);
+
+		return result;
 	}
 
 }

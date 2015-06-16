@@ -34,16 +34,13 @@ public interface IFileInfoProvider {
 	public static final String SQL_DOUBLE = "DOUBLE PRECISION";
 	public static final String SQL_REAL = "REAL";
 
-	public List<ColumnInfo> getColumns(String tableName, String recordFormatName);
+	public FileObject getColumns();
 
-	public List<ColumnInfo> getColumns(String tableName,
-			String recordFormatName, String schemaName);
+	public void populateData(String fileName);
 
-	public void populateData(String tableName);
+	public void populateData(String fileName, String recordFormatName);
 
-	public void populateData(String tableName, String recordFormatName);
-
-	public void populateData(String tableName, String recordFormatName,
+	public void populateData(String fileName, String recordFormatName,
 			String libraryName);
 
 	public void setLibraryList(JobDescription jobd)

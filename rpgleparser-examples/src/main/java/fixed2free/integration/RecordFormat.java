@@ -1,6 +1,7 @@
 package fixed2free.integration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecordFormat {
 	private ArrayList<ColumnInfo> fields = new ArrayList<ColumnInfo>();
@@ -11,8 +12,8 @@ public class RecordFormat {
 	public ArrayList<ColumnInfo> getFields() {
 		return fields;
 	}
-	public void setFields(ArrayList<ColumnInfo> fields) {
-		this.fields = fields;
+	public void setFields(List<ColumnInfo> list) {
+		this.fields = (ArrayList<ColumnInfo>) list;
 	}
 	public String getName() {
 		return name;

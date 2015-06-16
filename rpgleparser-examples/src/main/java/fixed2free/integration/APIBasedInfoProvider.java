@@ -22,30 +22,9 @@ import com.ibm.as400.access.JobDescription;
 import com.ibm.as400.access.ProgramCall;
 
 public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback {
-	private AS400 theAS400;
-	private LibraryList liblist = new LibraryList();
-	private QUSLOBJ objList;
-	private QUSLRCD recList;
-	private QUSLFLD fldList;
-	private ProgramCall jobRelated;
-	private String system;
-	private String userID;
-	private String password;
 	private static final String STATE_OBJECT_RESOLUTION = "Object resolution";
 	private static final String STATE_RECORD_RESOLUTION = "Record resolution";
 	private static final String STATE_FIELD_RESOLUTION = "Field resolution";
-	private FileObject theFile;
-
-	private RecordFormat theRec;
-	
-	private String currentState = STATE_OBJECT_RESOLUTION;
-
-	private String fileName;
-
-	private String libraryName;
-
-	private String recordFormatName;
-	private int fieldNumber;
 	
 	public static void main(String[] args){
 		APIBasedInfoProvider myObj = new APIBasedInfoProvider();
@@ -71,6 +50,29 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 		}
 		System.exit(0);
 	}
+	
+	private AS400 theAS400;
+	private LibraryList liblist = new LibraryList();
+	private QUSLOBJ objList;
+	private QUSLRCD recList;
+	private QUSLFLD fldList;
+	private ProgramCall jobRelated;
+	private String system;
+	private String userID;
+	private String password;
+
+	private FileObject theFile;
+	
+	private RecordFormat theRec;
+
+	private String currentState = STATE_OBJECT_RESOLUTION;
+
+	private String fileName;
+
+	private String libraryName;
+	private String recordFormatName;
+	
+	private int fieldNumber;
 
 	public APIBasedInfoProvider() {
 		theAS400 = new AS400();
@@ -97,13 +99,84 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 		}
 	}
 
-	public List<ColumnInfo> getColumns(String fileName, String recordFormatName) {
-		// TODO Auto-generated method stub
-		return null;
+	private void doFields(byte[] listEntry) {
+		FLDL0100 myObj = new FLDL0100(listEntry);
+		ColumnInfo ci = new ColumnInfo();
+		ci.setCharacterOctetLength(null);
+		if (myObj.getUcs2DisplayedFieldLength().intValue() != 0) {
+			ci.setCharacterMaximumLength(myObj
+					.getUcs2DisplayedFieldLength());
+		} else if (myObj.getNumberOfDBCSCharacters() != 0) {
+			ci.setCharacterMaximumLength(myObj.getNumberOfDBCSCharacters());
+		} else {
+			ci.setCharacterMaximumLength(myObj.getFieldLengthInBytes());
+		}
+		ci.setCCSID(myObj.getFieldDataCCSID());
+		ci.setColumnDefault(null);
+		ci.setColumnExpression(null);
+		ci.setColumnHeading(
+				StringUtils.rightPad(myObj.getColumnHeading1(),20)
+				+ StringUtils.rightPad(myObj.getColumnHeading2(), 20)
+				+ StringUtils.rightPad(myObj.getColumnHeading3(), 20)
+				);
+
+		if (myObj.getAlternativeFieldName() != null && myObj.getAlternativeFieldName().trim().length() > 0){
+			ci.setColumnName(myObj.getAlternativeFieldName());
+		} else {
+			ci.setColumnName(myObj.getFieldName());
+		}
+		ci.setColumnText(myObj.getFieldTextDescription());
+		ci.setDataType(myObj.getDataType());
+		//ci.setDateTimePrecision(null);
+		//ci.setHasDefault('0');
+		//ci.setHasFieldProc('0');
+		//ci.setHidden('0');
+		ci.setIdentityCache(myObj.getIdentityColumnCache());
+		ci.setIdentityCycle(myObj.getIdentityColumnCycle());
+		ci.setIdentityIncrement(new BigDecimal(myObj.getIdentityColumnIncrementBy().intValue()));
+		ci.setIdentityMaximum(myObj.getIdentityColumnMaxValue());
+		ci.setIdentityMinimum(myObj.getIdentityColumnMinValue());
+		ci.setIdentityOrder(myObj.getIdentityColumnOrder());
+		ci.setIdentityStart(myObj.getIdentityColumnCurrentStartWith());
+		//ci.setIsIdentity("0");
+		ci.setIsNullable(myObj.getNullValuesAllowed().charAt(0));
+		//ci.setIsUpdateable(null);
+		ci.setLength(myObj.getFieldLengthInBytes());
+		//ci.setLongComment(null);
+		ci.setNumericPrecision(myObj.getDecimalPositions());
+		ci.setNumericPrecisionRadix(new Integer(10));
+		ci.setNumericScale(myObj.getDigits());
+		ci.setOrdinalPosition(fieldNumber++);
+		ci.setStorage(myObj.getFieldLengthInBytes());
+		ci.setSystemColumnName(myObj.getInternalFieldName());
+		ci.setSystemSchemaName(theFile.getLibraryName());
+		ci.setSystemTableName(theFile.getFileName());
+		ci.setTableName(theFile.getFileName());
+		//ci.setTableOwner(null);
+		ci.setTableSchema(theFile.getLibraryName());
+		ci.setUserDefinedTypeName(myObj.getUserDefinedTypeName());
+		ci.setUserDefinedTypeSchema(myObj.getUserDefinedTypeLibraryName());
+		theRec.getFields().add(ci);
 	}
 
-	public List<ColumnInfo> getColumns(String fileName,
-			String recordFormatName, String libraryName) {
+	private void doObject(byte[] listEntry) {
+		OBJL0200 myObj = new OBJL0200(listEntry);
+		theFile = new FileObject();
+		theFile.setFileName(myObj.getObjectNameUsed());
+		theFile.setLibraryName(myObj.getObjectLibraryNameUsed());
+		theFile.setFileDescription(myObj.getTextDescription());
+	}
+
+	private void doRecord(byte[] listEntry) {
+		RCDL0200 myObj = new RCDL0200(listEntry);
+		RecordFormat aRecordFormat = new RecordFormat();
+		aRecordFormat.setName(myObj.getRecordFormatName());
+		aRecordFormat.setRecordFormatID(myObj.getRecordFormatID());
+		aRecordFormat.setDescription(myObj.getRecordTextDescription());
+		theFile.addRecordFormat(aRecordFormat);
+	}
+
+	public FileObject getColumns() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -145,6 +218,19 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 			String libraryName) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean processEntry(byte[] listEntry) {
+		if (currentState == STATE_OBJECT_RESOLUTION) {
+			doObject(listEntry);
+			// We want to stop at the first file found in the library list
+			return false;
+		} else if (currentState == STATE_RECORD_RESOLUTION) {
+			doRecord(listEntry);
+		} else if (currentState == STATE_FIELD_RESOLUTION) {
+			doFields(listEntry);
+		}
+		return true;
 	}
 
 	public void resolveObject() {
@@ -193,6 +279,7 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 			fldList.dowork();
 		}
 		fieldNumber = 0;
+		currentState = STATE_OBJECT_RESOLUTION;
 
 	}
 
@@ -250,85 +337,6 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public boolean processEntry(byte[] listEntry) {
-		if (currentState == STATE_OBJECT_RESOLUTION) {
-			OBJL0200 myObj = new OBJL0200(listEntry);
-			theFile = new FileObject();
-			theFile.setFileName(myObj.getObjectNameUsed());
-			theFile.setLibraryName(myObj.getObjectLibraryNameUsed());
-			theFile.setFileDescription(myObj.getTextDescription());
-			// We want to stop at the first file found in the library list
-			return false;
-		} else if (currentState == STATE_RECORD_RESOLUTION) {
-			RCDL0200 myObj = new RCDL0200(listEntry);
-			RecordFormat aRecordFormat = new RecordFormat();
-			aRecordFormat.setName(myObj.getRecordFormatName());
-			aRecordFormat.setRecordFormatID(myObj.getRecordFormatID());
-			aRecordFormat.setDescription(myObj.getRecordTextDescription());
-			theFile.addRecordFormat(aRecordFormat);
-			return true;
-		} else if (currentState == STATE_FIELD_RESOLUTION) {
-			FLDL0100 myObj = new FLDL0100(listEntry);
-			ColumnInfo ci = new ColumnInfo();
-			ci.setCharacterOctetLength(null);
-			if (myObj.getUcs2DisplayedFieldLength().intValue() != 0) {
-				ci.setCharacterMaximumLength(myObj
-						.getUcs2DisplayedFieldLength());
-			} else if (myObj.getNumberOfDBCSCharacters() != 0) {
-				ci.setCharacterMaximumLength(myObj.getNumberOfDBCSCharacters());
-			} else {
-				ci.setCharacterMaximumLength(myObj.getFieldLengthInBytes());
-			}
-			ci.setCCSID(myObj.getFieldDataCCSID());
-			ci.setColumnDefault(null);
-			ci.setColumnExpression(null);
-			ci.setColumnHeading(
-					StringUtils.rightPad(myObj.getColumnHeading1(),20)
-					+ StringUtils.rightPad(myObj.getColumnHeading2(), 20)
-					+ StringUtils.rightPad(myObj.getColumnHeading3(), 20)
-					);
-	
-			if (myObj.getAlternativeFieldName() != null && myObj.getAlternativeFieldName().trim().length() > 0){
-				ci.setColumnName(myObj.getAlternativeFieldName());
-			} else {
-				ci.setColumnName(myObj.getFieldName());
-			}
-			ci.setColumnText(myObj.getFieldTextDescription());
-			ci.setDataType(myObj.getDataType());
-			//ci.setDateTimePrecision(null);
-			//ci.setHasDefault('0');
-			//ci.setHasFieldProc('0');
-			//ci.setHidden('0');
-			ci.setIdentityCache(myObj.getIdentityColumnCache());
-			ci.setIdentityCycle(myObj.getIdentityColumnCycle());
-			ci.setIdentityIncrement(new BigDecimal(myObj.getIdentityColumnIncrementBy().intValue()));
-			ci.setIdentityMaximum(myObj.getIdentityColumnMaxValue());
-			ci.setIdentityMinimum(myObj.getIdentityColumnMinValue());
-			ci.setIdentityOrder(myObj.getIdentityColumnOrder());
-			ci.setIdentityStart(myObj.getIdentityColumnCurrentStartWith());
-			//ci.setIsIdentity("0");
-			ci.setIsNullable(myObj.getNullValuesAllowed().charAt(0));
-			//ci.setIsUpdateable(null);
-			ci.setLength(myObj.getFieldLengthInBytes());
-			//ci.setLongComment(null);
-			ci.setNumericPrecision(myObj.getDecimalPositions());
-			ci.setNumericPrecisionRadix(new Integer(10));
-			ci.setNumericScale(myObj.getDigits());
-			ci.setOrdinalPosition(fieldNumber++);
-			ci.setStorage(myObj.getFieldLengthInBytes());
-			ci.setSystemColumnName(myObj.getInternalFieldName());
-			ci.setSystemSchemaName(theFile.getLibraryName());
-			ci.setSystemTableName(theFile.getFileName());
-			ci.setTableName(theFile.getFileName());
-			//ci.setTableOwner(null);
-			ci.setTableSchema(theFile.getLibraryName());
-			ci.setUserDefinedTypeName(myObj.getUserDefinedTypeName());
-			ci.setUserDefinedTypeSchema(myObj.getUserDefinedTypeLibraryName());
-			theRec.getFields().add(ci);
-		}
-		return true;
 	}
 
 }

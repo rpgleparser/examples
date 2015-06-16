@@ -9,7 +9,7 @@ public class FileObject {
 	private String fileDescription;
 	
 	public void addRecordFormat(RecordFormat inRecordFormat) {
-		if (!recordFormats.containsKey(inRecordFormat)) {
+		if (!recordFormats.containsKey(inRecordFormat.getName())) {
 			recordFormats.put(inRecordFormat.getName(), inRecordFormat);
 		}
 	}

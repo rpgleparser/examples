@@ -2,7 +2,9 @@ package fixed2free;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -47,9 +49,7 @@ import org.rpgleparser.RpgParser.CsZ_SUBContext;
 import org.rpgleparser.RpgParser.Cspec_fixedContext;
 import org.rpgleparser.RpgParser.Cspec_fixed_standard_partsContext;
 import org.rpgleparser.RpgParser.Dcl_dsContext;
-import org.rpgleparser.RpgParser.Dcl_ds_fieldContext;
 import org.rpgleparser.RpgParser.DirectiveContext;
-import org.rpgleparser.RpgParser.Ds_nameContext;
 import org.rpgleparser.RpgParser.DspecContext;
 import org.rpgleparser.RpgParser.Dspec_fixedContext;
 import org.rpgleparser.RpgParser.Fspec_fixedContext;
@@ -64,8 +64,10 @@ import org.rpgleparser.RpgParser.ResultTypeContext;
 
 import examples.loggingListener.LoggingListener;
 import fixed2free.integration.ColumnInfo;
-import fixed2free.integration.MockTableInfoProvider;
+import fixed2free.integration.FileObject;
 import fixed2free.integration.IFileInfoProvider;
+import fixed2free.integration.MockFileInfoProvider;
+import fixed2free.integration.RecordFormat;
 
 public class SymbolTableBuilder extends LoggingListener {
 	private Scope currentScope;
@@ -82,7 +84,7 @@ public class SymbolTableBuilder extends LoggingListener {
 		st = new SymbolTable();
 		global = st.getAScope(Scope.GLOBAL);
 		currentScope = global;
-		tip = new MockTableInfoProvider();
+		tip = new MockFileInfoProvider();
 	}
 
 	private void checkResult(Cspec_fixed_standard_partsContext parts) {
@@ -422,7 +424,16 @@ public class SymbolTableBuilder extends LoggingListener {
 		lastSpec = "F";
 		if (ctx.FS_Format().getText().trim().equalsIgnoreCase("E")){
 			String fileName = ctx.FS_RecordName().getText().trim();
-			List<ColumnInfo> temp = tip.getColumns(fileName, "*LIBL");
+			tip.populateData(fileName.toUpperCase());
+			FileObject temp1 = tip.getColumns();
+			HashMap<String, RecordFormat> recFmts = temp1.getRecordFormats();
+			
+			RecordFormat rec = null;
+			for (Entry<String, RecordFormat> e : recFmts.entrySet()){
+				rec = e.getValue();
+			}
+			
+			List<ColumnInfo> temp = rec.getFields();
 			//TODO
 			String keywords = ""; //ctx.FS_Keywords().getText().toLowerCase();
 			if (keywords.contains("rename(")){
