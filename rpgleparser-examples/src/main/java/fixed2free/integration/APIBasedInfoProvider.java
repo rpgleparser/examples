@@ -101,61 +101,7 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 
 	private void doFields(byte[] listEntry) {
 		FLDL0100 myObj = new FLDL0100(listEntry);
-		ColumnInfo ci = new ColumnInfo();
-		ci.setCharacterOctetLength(null);
-		if (myObj.getUcs2DisplayedFieldLength().intValue() != 0) {
-			ci.setCharacterMaximumLength(myObj
-					.getUcs2DisplayedFieldLength());
-		} else if (myObj.getNumberOfDBCSCharacters() != 0) {
-			ci.setCharacterMaximumLength(myObj.getNumberOfDBCSCharacters());
-		} else {
-			ci.setCharacterMaximumLength(myObj.getFieldLengthInBytes());
-		}
-		ci.setCCSID(myObj.getFieldDataCCSID());
-		ci.setColumnDefault(null);
-		ci.setColumnExpression(null);
-		ci.setColumnHeading(
-				StringUtils.rightPad(myObj.getColumnHeading1(),20)
-				+ StringUtils.rightPad(myObj.getColumnHeading2(), 20)
-				+ StringUtils.rightPad(myObj.getColumnHeading3(), 20)
-				);
-
-		if (myObj.getAlternativeFieldName() != null && myObj.getAlternativeFieldName().trim().length() > 0){
-			ci.setColumnName(myObj.getAlternativeFieldName());
-		} else {
-			ci.setColumnName(myObj.getFieldName());
-		}
-		ci.setColumnText(myObj.getFieldTextDescription());
-		ci.setDataType(myObj.getDataType());
-		//ci.setDateTimePrecision(null);
-		//ci.setHasDefault('0');
-		//ci.setHasFieldProc('0');
-		//ci.setHidden('0');
-		ci.setIdentityCache(myObj.getIdentityColumnCache());
-		ci.setIdentityCycle(myObj.getIdentityColumnCycle());
-		ci.setIdentityIncrement(new BigDecimal(myObj.getIdentityColumnIncrementBy().intValue()));
-		ci.setIdentityMaximum(myObj.getIdentityColumnMaxValue());
-		ci.setIdentityMinimum(myObj.getIdentityColumnMinValue());
-		ci.setIdentityOrder(myObj.getIdentityColumnOrder());
-		ci.setIdentityStart(myObj.getIdentityColumnCurrentStartWith());
-		//ci.setIsIdentity("0");
-		ci.setIsNullable(myObj.getNullValuesAllowed().charAt(0));
-		//ci.setIsUpdateable(null);
-		ci.setLength(myObj.getFieldLengthInBytes());
-		//ci.setLongComment(null);
-		ci.setNumericPrecision(myObj.getDecimalPositions());
-		ci.setNumericPrecisionRadix(new Integer(10));
-		ci.setNumericScale(myObj.getDigits());
-		ci.setOrdinalPosition(fieldNumber++);
-		ci.setStorage(myObj.getFieldLengthInBytes());
-		ci.setSystemColumnName(myObj.getInternalFieldName());
-		ci.setSystemSchemaName(theFile.getLibraryName());
-		ci.setSystemTableName(theFile.getFileName());
-		ci.setTableName(theFile.getFileName());
-		//ci.setTableOwner(null);
-		ci.setTableSchema(theFile.getLibraryName());
-		ci.setUserDefinedTypeName(myObj.getUserDefinedTypeName());
-		ci.setUserDefinedTypeSchema(myObj.getUserDefinedTypeLibraryName());
+		ColumnInfo ci = new ColumnInfo(myObj);
 		theRec.getFields().add(ci);
 	}
 

@@ -33,7 +33,34 @@ public interface IFileInfoProvider {
 	public static final String SQL_ROWID = "ROWID";
 	public static final String SQL_DOUBLE = "DOUBLE PRECISION";
 	public static final String SQL_REAL = "REAL";
-
+	
+	public static final String AS400_ALPHA = "A";
+	public static final String AS400_BINARY = "B";
+	public static final String AS400_DIGITS_ONLY = "D";
+	public static final String AS400_EITHER_DBCS_OR_ALPHANUM = "E";
+	public static final String AS400_FLOATING_POINT = "F";
+	public static final String AS400_GRAPHIC = "G";
+	public static final String AS400_HEXADECIMAL = "H";
+	public static final String AS400_INHIBIT_INPUT = "I";
+	public static final String AS400_DBCS_ONLY = "J";
+	public static final String AS400_DATE = "L";
+	public static final String AS400_NUMERIC_ONLY = "M";
+	public static final String AS400_NUMERIC_SHIFT = "N";
+	public static final String AS400_OPEN_BOTH_DBCS_ALPHANUM = "O";
+	public static final String AS400_PACKED_DECIMAL = "P";
+	public static final String AS400_ZONED_DECIMAL = "S";
+	public static final String AS400_TIME = "T";
+	public static final String AS400_KATAJANA = "W";
+	public static final String AS400_ALPHA_ONLY = "X";
+	public static final String AS400_NUMERIC_ONLY_2 = "Y";
+	public static final String AS400_TIMESTAMP = "Z";
+	public static final String AS400_BLOB = "1";
+	public static final String AS400_CLOB = "2";
+	public static final String AS400_DBCLOB = "3";
+	public static final String AS400_DATALINK = "4";
+	public static final String AS400_BINARY_CHARACTER = "5";
+	public static final String AS400_DECIMAL_FLOATING_POINT = "6";
+	public static final String AS400_XML = "7";
 	public FileObject getColumns();
 
 	public void populateData(String fileName);

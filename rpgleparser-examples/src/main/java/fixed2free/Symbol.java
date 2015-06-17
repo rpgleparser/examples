@@ -4,8 +4,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import fixed2free.integration.ColumnInfo;
 import fixed2free.integration.IFileInfoProvider;
+import fixed2free.integration.ColumnInfo;
 
 public class Symbol implements Comparator<Symbol>{
 	public static final String CAT_ARRAY_ELEMENT_COUNT = "ARRAY_ELEMS";
@@ -76,61 +76,36 @@ public class Symbol implements Comparator<Symbol>{
 
 	public static final String SO_O_SPECS = "O-SPECS";
 
-	public static void sqlAttr2rpg(ColumnInfo col, Symbol sym) {
-		if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_BIGINT)){
+	public static void as400Attr2rpg(ColumnInfo col, Symbol sym) {
+		if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_BINARY)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(20));
-			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(0));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_INTEGER)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(10));
-			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(0));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_SMALLINT)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(5));
-			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(0));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_DECIMAL)){
+			sym.addAttribute(CAT_LENGTH, col.getFieldLengthInBytes().toString());
+			sym.addAttribute(CAT_DECIMAL_POSITIONS, col.getDecimalPositions().toString());
+		}  else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_PACKED_DECIMAL)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_PACKED);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(col.getNumericScale()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_NUMERIC)){
+			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getDigits()));
+			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(col.getDecimalPositions()));
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_ZONED_DECIMAL)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_ZONED);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(col.getNumericScale()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_DOUBLE)){
+			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getDigits()));
+			sym.addAttribute(CAT_DECIMAL_POSITIONS, Integer.toString(col.getDecimalPositions()));
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_FLOATING_POINT)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_FLOAT);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_FLOAT)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_FLOAT);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_REAL	)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_FLOAT);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_CHAR	)){
+			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getFieldLengthInBytes()));
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_ALPHA	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_ALPHANUM);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_VARCHAR	)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_ALPHANUM);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
-			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_GRAPHIC	)){
+			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getFieldLengthInBytes()));
+			sym.addAttribute(CAT_CCSID, Integer.toString(col.getFieldDataCCSID()));
+			if (col.getVariableLengthFieldIndicator().equalsIgnoreCase("1")){
+				sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
+			}
+		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_GRAPHIC	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_GRAPHIC);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_VARG	)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_GRAPHIC);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-			sym.addAttribute(CAT_CCSID, Integer.toString(col.getCCSID()));
-			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_BINARY	)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_BINARY);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_VARBIN	)){
-			sym.addAttribute(CAT_DATA_TYPE, DT_BINARY);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
-			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
+			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getNumberOfDBCSCharacters()));
+			sym.addAttribute(CAT_CCSID, Integer.toString(col.getFieldDataCCSID()));
+			if (col.getVariableLengthFieldIndicator().equalsIgnoreCase("1")){
+				sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
+			}
 		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_DATE	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_DATE);
 		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_TIME	)){
@@ -139,7 +114,7 @@ public class Symbol implements Comparator<Symbol>{
 			sym.addAttribute(CAT_DATA_TYPE, DT_TIMESTAMP);
 		} else if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.SQL_ROWID	)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_ALPHANUM);
-			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getLength()));
+			sym.addAttribute(CAT_LENGTH, Integer.toString(col.getFieldLengthInBytes()));
 			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
 		}
 	}

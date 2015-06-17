@@ -63,10 +63,10 @@ import org.rpgleparser.RpgParser.ProcedureContext;
 import org.rpgleparser.RpgParser.ResultTypeContext;
 
 import examples.loggingListener.LoggingListener;
-import fixed2free.integration.ColumnInfo;
 import fixed2free.integration.FileObject;
 import fixed2free.integration.IFileInfoProvider;
 import fixed2free.integration.MockFileInfoProvider;
+import fixed2free.integration.ColumnInfo;
 import fixed2free.integration.RecordFormat;
 
 public class SymbolTableBuilder extends LoggingListener {
@@ -431,29 +431,30 @@ public class SymbolTableBuilder extends LoggingListener {
 			RecordFormat rec = null;
 			for (Entry<String, RecordFormat> e : recFmts.entrySet()){
 				rec = e.getValue();
-			}
-			
-			List<ColumnInfo> temp = rec.getFields();
-			//TODO
-			String keywords = ""; //ctx.FS_Keywords().getText().toLowerCase();
-			if (keywords.contains("rename(")){
-				int startpos = keywords.indexOf("rename(");
-				int endpos = keywords.indexOf(')', startpos);
-				String tempx = keywords.substring(startpos, endpos);
-				String[] parts = tempx.split("[(:)]");
-			}
-			if (temp != null){
-				for (ColumnInfo ci : temp){
-					Symbol theSym = new Symbol();
-					// Definition type
-					theSym.setName(ci.getColumnName());
-					Symbol.sqlAttr2rpg(ci, theSym);
-					theSym.addAttribute(Symbol.CAT_SYMBOL_ORIGIN, Symbol.SO_EXTERNAL_FILE_DESCRIPTION);
-					theSym.addAttribute(Symbol.CAT_TABLE_NAME, fileName);
-					st.addSymbolToScope(currentScope, theSym);
-				}
 				
+				List<ColumnInfo> temp = rec.getFields();
+				//TODO
+				String keywords = ""; //ctx.FS_Keywords().getText().toLowerCase();
+				if (keywords.contains("rename(")){
+					int startpos = keywords.indexOf("rename(");
+					int endpos = keywords.indexOf(')', startpos);
+					String tempx = keywords.substring(startpos, endpos);
+					String[] parts = tempx.split("[(:)]");
+				}
+				if (temp != null){
+					for (ColumnInfo ci : temp){
+						Symbol theSym = new Symbol();
+						// Definition type
+						theSym.setName(ci.getFieldName());
+						Symbol.as400Attr2rpg(ci, theSym);
+						theSym.addAttribute(Symbol.CAT_SYMBOL_ORIGIN, Symbol.SO_EXTERNAL_FILE_DESCRIPTION);
+						theSym.addAttribute(Symbol.CAT_TABLE_NAME, fileName);
+						st.addSymbolToScope(currentScope, theSym);
+					}
+					
+				}
 			}
+
 		}
 		
 	}

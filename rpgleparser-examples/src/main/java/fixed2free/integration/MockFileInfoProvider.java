@@ -2,6 +2,7 @@ package fixed2free.integration;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,2475 +11,414 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.JobDescription;
 
 public class MockFileInfoProvider implements IFileInfoProvider {
-	
-	private String tableName;
+
+	private String fileName;
 	private String recordFormatName;
 	private String libraryName;
 
-	private List<ColumnInfo> doIncmpyp(String tableName, String schemaName) {
-		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
-		result.add(new ColumnInfo("CYCMPY", tableName, "DFTOWNER", 1,
-				"NUMERIC", 1, new Integer(0), 'N', 'Y', null, 'Y', "CMPY", 1,
-				new Integer(1), null, schemaName, "0", null, null, new Integer(
-						10), null, "COMPANY NUMBER", "CYCMPY", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYNAME", tableName, "DFTOWNER", 2, "CHAR",
-				25, null, 'N', 'Y', null, 'Y', "NAME", 25, null,
-				new Integer(37), schemaName, " ", new Integer(25), new Integer(
-						25), null, null, "NAME", "CYNAME", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYSNAM", tableName, "DFTOWNER", 3, "CHAR",
-				15, null, 'N', 'Y', null, 'Y', "SNAM", 15, null,
-				new Integer(37), schemaName, " ", new Integer(15), new Integer(
-						15), null, null, "SHORT WAREHOUSE NAME", "CYSNAM",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYADR1", tableName, "DFTOWNER", 4, "CHAR",
-				25, null, 'N', 'Y', null, 'Y', "ADDRESS", 25, null,
-				new Integer(37), schemaName, " ", new Integer(25), new Integer(
-						25), null, null, "ADDRESS LINE 1", "CYADR1", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYADR2", tableName, "DFTOWNER", 5, "CHAR",
-				25, null, 'N', 'Y', null, 'Y', "ADR2", 25, null,
-				new Integer(37), schemaName, " ", new Integer(25), new Integer(
-						25), null, null, "ADDRESS LINE 2", "CYADR2", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYCITY", tableName, "DFTOWNER", 6, "CHAR",
-				15, null, 'N', 'Y', null, 'Y', "CITY", 15, null,
-				new Integer(37), schemaName, " ", new Integer(15), new Integer(
-						15), null, null, "CITY", "CYCITY", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYSTA", tableName, "DFTOWNER", 7, "CHAR", 2,
-				null, 'N', 'Y', null, 'Y', "STA", 2, null, new Integer(37),
-				schemaName, " ", new Integer(2), new Integer(2), null, null,
-				"STATE", "CYSTA", tableName, schemaName, null, null, "NO",
-				null, null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYCTRY", tableName, "DFTOWNER", 8, "CHAR",
-				2, null, 'N', 'Y', null, 'Y', "CTRY", 2, null, new Integer(37),
-				schemaName, " ", new Integer(2), new Integer(2), null, null,
-				"COUNTRY", "CYCTRY", tableName, schemaName, null, null, "NO",
-				null, null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYZIP", tableName, "DFTOWNER", 9, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "ZIP", 10, null,
-				new Integer(37), schemaName, " ", new Integer(10), new Integer(
-						10), null, null, "ZIP CODE", "CYZIP", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYAREA", tableName, "DFTOWNER", 10,
-				"DECIMAL", 3, new Integer(0), 'N', 'Y', null, 'Y', "AREA", 2,
-				new Integer(3), null, schemaName, "0", null, null, new Integer(
-						10), null, "AREA CODE", "CYAREA", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYPHON", tableName, "DFTOWNER", 11,
-				"DECIMAL", 7, new Integer(0), 'N', 'Y', null, 'Y', "PHON", 4,
-				new Integer(7), null, schemaName, "0", null, null, new Integer(
-						10), null, "TELEPHONE", "CYPHON", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYOUTQ", tableName, "DFTOWNER", 12, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "OUTQ", 10, null,
-				new Integer(37), schemaName, " ", new Integer(10), new Integer(
-						10), null, null, "PRINT QUEUE NAME", "CYOUTQ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("CYFLG1", tableName, "DFTOWNER", 13, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG1", 1, null, new Integer(37),
-				schemaName, " ", new Integer(1), new Integer(1), null, null,
-				"MISCELLANEOUS FLAG	", "CYFLG1", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("CYFLG2", tableName, "DFTOWNER", 14, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG2", 1, null, new Integer(37),
-				schemaName, " ", new Integer(1), new Integer(1), null, null,
-				"MISCELLANEOUS FLAG	", "CYFLG2", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("CYFLG3", tableName, "DFTOWNER", 15, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG3", 1, null, new Integer(37),
-				schemaName, " ", new Integer(1), new Integer(1), null, null,
-				"MISCELLANEOUS FLAG	", "CYFLG3", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("CYFLG4", tableName, "DFTOWNER", 16, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG4", 1, null, new Integer(37),
-				schemaName, " ", new Integer(1), new Integer(1), null, null,
-				"MISCELLANEOUS FLAG	", "CYFLG4", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("CYFLG5", tableName, "DFTOWNER", 17, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG5", 1, null, new Integer(37),
-				schemaName, " ", new Integer(1), new Integer(1), null, null,
-				"MISCELLANEOUS FLAG	", "CYFLG5", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("CYOTQ2", tableName, "DFTOWNER", 18, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "OUTQ", 10, null,
-				new Integer(37), schemaName, " ", new Integer(10), new Integer(
-						10), null, null, "PRINT QUEUE NAME", "CYOTQ2",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		return result;
+	private void doIncmpyp(RecordFormat input){
+		ColumnInfo c1;
+		c1 = new ColumnInfo("CYCMPY", "S", "B", new Integer(1), new Integer(1), new Integer(1), new Integer(1), new Integer(0), "COMPANY NUMBER", "4", new Integer(0), "", "CMPY", "", "", "CYCMPY", "", new Integer(0), new Integer(1), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYNAME", "A", "B", new Integer(2), new Integer(2), new Integer(25), new Integer(0), new Integer(0), "NAME", "", new Integer(0), "", "NAME", "", "", "CYNAME", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYSNAM", "A", "B", new Integer(27), new Integer(27), new Integer(15), new Integer(0), new Integer(0), "SHORT WAREHOUSE NAME", "", new Integer(0), "", "SNAM", "", "", "CYSNAM", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYADR1", "A", "B", new Integer(42), new Integer(42), new Integer(25), new Integer(0), new Integer(0), "ADDRESS LINE 1", "", new Integer(0), "", "ADDRESS", "", "", "CYADR1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYADR2", "A", "B", new Integer(67), new Integer(67), new Integer(25), new Integer(0), new Integer(0), "ADDRESS LINE 2", "", new Integer(0), "", "ADR2", "", "", "CYADR2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYCITY", "A", "B", new Integer(92), new Integer(92), new Integer(15), new Integer(0), new Integer(0), "CITY", "", new Integer(0), "", "CITY", "", "", "CYCITY", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYSTA", "A", "B", new Integer(107), new Integer(107), new Integer(2), new Integer(0), new Integer(0), "STATE", "", new Integer(0), "", "STA", "", "", "CYSTA", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYCTRY", "A", "B", new Integer(109), new Integer(109), new Integer(2), new Integer(0), new Integer(0), "COUNTRY", "", new Integer(0), "", "CTRY", "", "", "CYCTRY", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYZIP", "A", "B", new Integer(111), new Integer(111), new Integer(10), new Integer(0), new Integer(0), "ZIP CODE", "", new Integer(0), "", "ZIP", "", "", "CYZIP", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYAREA", "P", "B", new Integer(121), new Integer(121), new Integer(2), new Integer(3), new Integer(0), "AREA CODE", "", new Integer(0), "", "AREA", "", "", "CYAREA", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYPHON", "P", "B", new Integer(123), new Integer(123), new Integer(4), new Integer(7), new Integer(0), "TELEPHONE", "", new Integer(0), "", "PHON", "", "", "CYPHON", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYOUTQ", "A", "B", new Integer(127), new Integer(127), new Integer(10), new Integer(0), new Integer(0), "PRINT QUEUE NAME", "", new Integer(0), "", "OUTQ", "", "", "CYOUTQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYFLG1", "A", "B", new Integer(137), new Integer(137), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG1", "", "", "CYFLG1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYFLG2", "A", "B", new Integer(138), new Integer(138), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG2", "", "", "CYFLG2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYFLG3", "A", "B", new Integer(139), new Integer(139), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG3", "", "", "CYFLG3", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYFLG4", "A", "B", new Integer(140), new Integer(140), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG4", "", "", "CYFLG4", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYFLG5", "A", "B", new Integer(141), new Integer(141), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG5", "", "", "CYFLG5", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("CYOTQ2", "A", "B", new Integer(142), new Integer(142), new Integer(10), new Integer(0), new Integer(0), "PRINT QUEUE NAME", "", new Integer(0), "", "OUTQ", "", "", "CYOTQ2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
 	}
 
-	private List<ColumnInfo> doIndatep(String tableName, String schema) {
-		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
-		result.add(doINDATEPColumn1(result, tableName, schema));
-		result.add(doINDATEPColumn2(result, tableName, schema));
-		result.add(doINDATEPColumn3(result, tableName, schema));
-		result.add(doINDATEPColumn4(result, tableName, schema));
-		result.add(doINDATEPColumn5(result, tableName, schema));
-		result.add(doINDATEPColumn6(result, tableName, schema));
-		result.add(doINDATEPColumn7(result, tableName, schema));
-		result.add(doINDATEPColumn8(result, tableName, schema));
-		result.add(doINDATEPColumn9(result, tableName, schema));
-		result.add(doINDATEPColumn10(result, tableName, schema));
-		result.add(doINDATEPColumn11(result, tableName, schema));
-		result.add(doINDATEPColumn12(result, tableName, schema));
-		result.add(doINDATEPColumn13(result, tableName, schema));
-		result.add(doINDATEPColumn14(result, tableName, schema));
-		result.add(doINDATEPColumn15(result, tableName, schema));
-		return result;
+	private void doIndatep(RecordFormat input){
+		ColumnInfo c1;
+		c1 = new ColumnInfo("DAWEEK", "S", "B", new Integer(1), new Integer(1), new Integer(1), new Integer(1), new Integer(0), "WEEK OF PERIOD", "", new Integer(0), "", "WEEK", "", "", "DAWEEK", "", new Integer(0), new Integer(1), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAPER", "S", "B", new Integer(2), new Integer(2), new Integer(2), new Integer(2), new Integer(0), "PERIOD", "4", new Integer(0), "", "PERIOD", "", "", "DAPER", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DADAY", "P", "B", new Integer(4), new Integer(4), new Integer(1), new Integer(1), new Integer(0), "DAY OF WEEK MONDAY=1", "", new Integer(0), "", "DAY", "", "", "DADAY", "", new Integer(0), new Integer(1), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAFYR", "S", "B", new Integer(5), new Integer(5), new Integer(2), new Integer(2), new Integer(0), "FISCAL YEAR", "", new Integer(0), "", "FY", "", "", "DAFYR", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAWDT1", "P", "B", new Integer(7), new Integer(7), new Integer(4), new Integer(7), new Integer(0), "WK1 ENDING DATE", "", new Integer(0), "", "WDT1", "", "", "DAWDT1", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAWDT2", "P", "B", new Integer(11), new Integer(11), new Integer(4), new Integer(7), new Integer(0), "WK2 ENDING DATE", "", new Integer(0), "", "WDT2", "", "", "DAWDT2", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAWDT3", "P", "B", new Integer(15), new Integer(15), new Integer(4), new Integer(7), new Integer(0), "WK3 ENDING DATE", "", new Integer(0), "", "WDT3", "", "", "DAWDT3", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAWDT4", "P", "B", new Integer(19), new Integer(19), new Integer(4), new Integer(7), new Integer(0), "WK4 ENDING DATE", "", new Integer(0), "", "WDT4", "", "", "DAWDT4", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAFYDT", "P", "B", new Integer(23), new Integer(23), new Integer(4), new Integer(7), new Integer(0), "FISCAL YEAR END DATE", "", new Integer(0), "", "FYDT", "", "", "DAFYDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DASNDT", "P", "B", new Integer(27), new Integer(27), new Integer(4), new Integer(7), new Integer(0), "LAST SUNDAY", "", new Integer(0), "", "SNDT", "", "", "DASNDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAPCDT", "P", "B", new Integer(31), new Integer(31), new Integer(4), new Integer(7), new Integer(0), "PRICE CHANGE DATE", "", new Integer(0), "", "PCDT", "", "", "DAPCDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAFLG1", "A", "B", new Integer(35), new Integer(35), new Integer(1), new Integer(0), new Integer(0), "Y=PERIOD 13 HAS A WEEK 5", "", new Integer(0), "", "FLG1", "", "", "DAFLG1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAFLG2", "A", "B", new Integer(36), new Integer(36), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG2", "", "", "DAFLG2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAFLG3", "A", "B", new Integer(37), new Integer(37), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG3", "", "", "DAFLG3", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DAFSYR", "P", "B", new Integer(38), new Integer(38), new Integer(3), new Integer(5), new Integer(0), "FISCAL YEAR _CCYY", "", new Integer(0), "", "FIS-YR", "_CCYY", "", "DAFSYR", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
 	}
 
-	private ColumnInfo doINDATEPColumn1(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAWEEK");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(1);
-		temp.setDataType(ColumnInfo.NUMERIC);
-		temp.setLength(1);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("WEEK");
-		temp.setStorage(1);
-		temp.setNumericPrecision(new Integer(1));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("WEEK OF PERIOD");
-		temp.setSystemColumnName("DAWEEK");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
+
+	private void doInddesp(RecordFormat input){
+		ColumnInfo c1;
+		c1 = new ColumnInfo("DDDEPT", "S", "B", new Integer(1), new Integer(1), new Integer(2), new Integer(2), new Integer(0), "DEPARTMENT NUMBER", "4", new Integer(0), "", "DEPT", "", "", "DDDEPT", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDDESL", "A", "B", new Integer(3), new Integer(3), new Integer(20), new Integer(0), new Integer(0), "LONG DEPT DESC", "", new Integer(0), "", "DESL", "", "", "DDDESL", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDDESS", "A", "B", new Integer(23), new Integer(23), new Integer(9), new Integer(0), new Integer(0), "SHORT DEPT DESC", "", new Integer(0), "", "DESS", "", "", "DDDESS", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDLOSB", "P", "B", new Integer(32), new Integer(32), new Integer(3), new Integer(5), new Integer(2), "LOW % FOR SB CALC.", "L", new Integer(0), "", "LOW %", "", "", "DDLOSB", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDHISB", "P", "B", new Integer(35), new Integer(35), new Integer(3), new Integer(5), new Integer(2), "HIGH % FOR SB CALC.", "L", new Integer(0), "", "HIGH %", "", "", "DDHISB", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG1", "A", "B", new Integer(38), new Integer(38), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG1", "", "", "DDFLG1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG2", "A", "B", new Integer(39), new Integer(39), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG2", "", "", "DDFLG2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG3", "A", "B", new Integer(40), new Integer(40), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG3", "", "", "DDFLG3", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG4", "A", "B", new Integer(41), new Integer(41), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG4", "", "", "DDFLG4", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG5", "A", "B", new Integer(42), new Integer(42), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG5", "", "", "DDFLG5", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDUPCD", "P", "B", new Integer(43), new Integer(43), new Integer(2), new Integer(2), new Integer(0), "UPC DEFAULT LENGTH", "", new Integer(0), "", "UPC DEFAULT LENGTH", "", "", "DDUPCD", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG6", "A", "B", new Integer(45), new Integer(45), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG6", "", "", "DDFLG6", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG7", "A", "B", new Integer(46), new Integer(46), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG7", "", "", "DDFLG7", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG8", "A", "B", new Integer(47), new Integer(47), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG8", "", "", "DDFLG8", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG9", "A", "B", new Integer(48), new Integer(48), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG9", "", "", "DDFLG9", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDFLG0", "A", "B", new Integer(49), new Integer(49), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG0", "", "", "DDFLG0", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDLCCD", "A", "B", new Integer(50), new Integer(50), new Integer(1), new Integer(0), new Integer(0), "MANDATORY PO DISTRIBUTION", "", new Integer(0), "", "MANDATORY", "PO DISTRO", "", "DDLCCD", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDHZCD", "A", "B", new Integer(51), new Integer(51), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLAG", "", "", "DDHZCD", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDBARCODE", "A", "B", new Integer(52), new Integer(52), new Integer(1), new Integer(0), new Integer(0), "BARCODE FLAG", "", new Integer(0), "", "BARCODE FLAG", "", "", "DDBARCODE", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("DDADAY", "P", "B", new Integer(53), new Integer(53), new Integer(2), new Integer(3), new Integer(0), "AUTO-DISTRIBUTION DAYS OUT", "", new Integer(0), "", "AUTO", "DIST", "DAYS", "DDADAY", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
 	}
 
-	private ColumnInfo doINDATEPColumn10(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DASNDT");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(10);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(7);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("SNDT");
-		temp.setStorage(4);
-		temp.setNumericPrecision(new Integer(7));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("LAST SUNDAY");
-		temp.setSystemColumnName("DASNDT");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
+	private void doInpslip(RecordFormat input){
+		ColumnInfo c1;
+		c1 = new ColumnInfo("SICMPY", "S", "B", new Integer(1), new Integer(1), new Integer(1), new Integer(1), new Integer(0), "COMPANY NUMBER", "4", new Integer(0), "", "CMPY", "", "", "SICMPY", "", new Integer(0), new Integer(1), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIFYR", "S", "B", new Integer(2), new Integer(2), new Integer(2), new Integer(2), new Integer(0), "FISCAL YEAR", "", new Integer(0), "", "FY", "", "", "SIFYR", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIPER", "S", "B", new Integer(4), new Integer(4), new Integer(2), new Integer(2), new Integer(0), "PER", "4", new Integer(0), "", "PER", "", "", "SIPER", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIREGN", "A", "B", new Integer(6), new Integer(6), new Integer(2), new Integer(0), new Integer(0), "REGION CODE", "", new Integer(0), "", "REGN", "", "", "SIREGN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIDEPT", "S", "B", new Integer(8), new Integer(8), new Integer(2), new Integer(2), new Integer(0), "DEPARTMENT NUMBER", "4", new Integer(0), "", "DEPT", "", "", "SIDEPT", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIPSAL", "P", "B", new Integer(10), new Integer(10), new Integer(5), new Integer(9), new Integer(0), "PERIOD  PLAN SALES $", "", new Integer(0), "", "PERIOD", "PLAN SALES $", "", "SIPSAL", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIPINV", "P", "B", new Integer(15), new Integer(15), new Integer(5), new Integer(9), new Integer(0), "PERIOD  PLAN INV.$", "", new Integer(0), "", "PERIOD", "PLAN INV.$", "", "SIPINV", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIASAL", "P", "B", new Integer(20), new Integer(20), new Integer(5), new Integer(9), new Integer(0), "PERIOD  ACT SALES $", "", new Integer(0), "", "PERIOD", "ACT SALES $", "", "SIASAL", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIASL1", "P", "B", new Integer(25), new Integer(25), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  SALES WK1", "", new Integer(0), "", "ACTUAL", "SALES WK1", "", "SIASL1", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIASL2", "P", "B", new Integer(30), new Integer(30), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  SALES WK2", "", new Integer(0), "", "ACTUAL", "SALES WK2", "", "SIASL2", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIASL3", "P", "B", new Integer(35), new Integer(35), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  SALES WK3", "", new Integer(0), "", "ACTUAL", "SALES WK3", "", "SIASL3", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIASL4", "P", "B", new Integer(40), new Integer(40), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  SALES WK4", "", new Integer(0), "", "ACTUAL", "SALES WK4", "", "SIASL4", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIAYTD", "P", "B", new Integer(45), new Integer(45), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  YTD SALES", "", new Integer(0), "", "ACTUAL", "YTD SALES", "", "SIAYTD", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIAINV", "P", "B", new Integer(50), new Integer(50), new Integer(5), new Integer(9), new Integer(0), "PERIOD  ACT INV.$", "", new Integer(0), "", "PERIOD", "ACT INV.$", "", "SIAINV", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIAIN1", "P", "B", new Integer(55), new Integer(55), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  INV. WK1", "", new Integer(0), "", "ACTUAL", "INV. WK1", "", "SIAIN1", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIAIN2", "P", "B", new Integer(60), new Integer(60), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  INV. WK2", "", new Integer(0), "", "ACTUAL", "INV. WK2", "", "SIAIN2", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIAIN3", "P", "B", new Integer(65), new Integer(65), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  INV. WK3", "", new Integer(0), "", "ACTUAL", "INV. WK3", "", "SIAIN3", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIAIN4", "P", "B", new Integer(70), new Integer(70), new Integer(5), new Integer(9), new Integer(0), "ACTUAL  INV. WK4", "", new Integer(0), "", "ACTUAL", "INV. WK4", "", "SIAIN4", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIFLG1", "A", "B", new Integer(75), new Integer(75), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG1", "", "", "SIFLG1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIFLG2", "A", "B", new Integer(76), new Integer(76), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG2", "", "", "SIFLG2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIFLG3", "A", "B", new Integer(77), new Integer(77), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG3", "", "", "SIFLG3", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIFLG4", "A", "B", new Integer(78), new Integer(78), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG4", "", "", "SIFLG4", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIPMAR", "P", "B", new Integer(79), new Integer(79), new Integer(5), new Integer(9), new Integer(0), "PLAN MARGIN DOLLARS", "", new Integer(0), "", "PMAR", "", "", "SIPMAR", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIPMPC", "P", "B", new Integer(84), new Integer(84), new Integer(2), new Integer(3), new Integer(3), "PLAN MARGIN PERCENT", "", new Integer(0), "", "PMPC", "", "", "SIPMPC", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIMD$", "P", "B", new Integer(86), new Integer(86), new Integer(5), new Integer(9), new Integer(0), "PLAN MARKDOWNS DOLLARS", "M", new Integer(0), "", "MD$", "", "", "SIMD$", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIMDP", "P", "B", new Integer(91), new Integer(91), new Integer(3), new Integer(5), new Integer(5), "PLAN MARKDOWNS PERCENT", "M", new Integer(0), "", "MDP", "", "", "SIMDP", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIDD$", "P", "B", new Integer(94), new Integer(94), new Integer(5), new Integer(9), new Integer(0), "DAM / DEST DOLLARS", "M", new Integer(0), "", "DD$", "", "", "SIDD$", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIDDP", "P", "B", new Integer(99), new Integer(99), new Integer(3), new Integer(5), new Integer(5), "DAM / DEST PERCENT", "M", new Integer(0), "", "DDP", "", "", "SIDDP", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SISHK$", "P", "B", new Integer(102), new Integer(102), new Integer(5), new Integer(9), new Integer(0), "SHRINK DOLLARS", "4", new Integer(0), "", "SHK$", "", "", "SISHK$", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SISHKP", "P", "B", new Integer(107), new Integer(107), new Integer(3), new Integer(5), new Integer(5), "SHRINK PERCENT", "4", new Integer(0), "", "SHKP", "", "", "SISHKP", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIMU$", "P", "B", new Integer(110), new Integer(110), new Integer(5), new Integer(9), new Integer(0), "PLAN MARKUP DOLLARS", "M", new Integer(0), "", "MU$", "", "", "SIMU$", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIMUP", "P", "B", new Integer(115), new Integer(115), new Integer(3), new Integer(5), new Integer(5), "PLAN MARKUP PERCENT", "M", new Integer(0), "", "MUP", "", "", "SIMUP", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIDAIN", "P", "B", new Integer(118), new Integer(118), new Integer(5), new Integer(9), new Integer(0), "DAILY AVG. INV.$", "", new Integer(0), "", "DAILY", "AVG.", "INV.$", "SIDAIN", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("SIWHS5", "P", "B", new Integer(123), new Integer(123), new Integer(3), new Integer(5), new Integer(0), "WAREHOUSE NUMBER", "", new Integer(0), "", "WHS5", "", "", "SIWHS5", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
 	}
 
-	private ColumnInfo doINDATEPColumn11(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAPCDT");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(11);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(7);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("PCDT");
-		temp.setStorage(4);
-		temp.setNumericPrecision(new Integer(7));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("PRICE CHANGE DATE");
-		temp.setSystemColumnName("DAPCDT");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
+	private void doIntslip(RecordFormat input){
+		ColumnInfo c1;
+		c1 = new ColumnInfo("TSCMPY", "S", "B", new Integer(1), new Integer(1), new Integer(1), new Integer(1), new Integer(0), "COMPANY NUMBER", "4", new Integer(0), "", "CMPY", "", "", "TSCMPY", "", new Integer(0), new Integer(1), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSFYR", "S", "B", new Integer(2), new Integer(2), new Integer(2), new Integer(2), new Integer(0), "FISCAL YEAR", "", new Integer(0), "", "FY", "", "", "TSFYR", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSPER", "S", "B", new Integer(4), new Integer(4), new Integer(2), new Integer(2), new Integer(0), "PERIOD", "4", new Integer(0), "", "PERIOD", "", "", "TSPER", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSREGN", "A", "B", new Integer(6), new Integer(6), new Integer(2), new Integer(0), new Integer(0), "REGION CODE", "", new Integer(0), "", "REGN", "", "", "TSREGN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSDEPT", "S", "B", new Integer(8), new Integer(8), new Integer(2), new Integer(2), new Integer(0), "DEPARTMENT NUMBER", "4", new Integer(0), "", "DEPT", "", "", "TSDEPT", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSPSAL", "P", "B", new Integer(10), new Integer(10), new Integer(6), new Integer(11), new Integer(0), "PLAN SALES $", "", new Integer(0), "", "PLAN SALES $", "", "", "TSPSAL", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSPINV", "P", "B", new Integer(16), new Integer(16), new Integer(6), new Integer(11), new Integer(0), "PLAN INV $", "", new Integer(0), "", "PLAN INV $", "", "", "TSPINV", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSASL1", "P", "B", new Integer(22), new Integer(22), new Integer(6), new Integer(11), new Integer(0), "ACT SALES $ WK 1", "", new Integer(0), "", "ACT SALES $ WK 1", "", "", "TSASL1", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSASL2", "P", "B", new Integer(28), new Integer(28), new Integer(6), new Integer(11), new Integer(0), "ACT SALES $ WK 2", "", new Integer(0), "", "ACT SALES $ WK 2", "", "", "TSASL2", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSASL3", "P", "B", new Integer(34), new Integer(34), new Integer(6), new Integer(11), new Integer(0), "ACT SALES $ WK 3", "", new Integer(0), "", "ACT SALES $ WK 3", "", "", "TSASL3", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSASL4", "P", "B", new Integer(40), new Integer(40), new Integer(6), new Integer(11), new Integer(0), "ACT SALES $ WK 4", "", new Integer(0), "", "ACT SALES $ WK 4", "", "", "TSASL4", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSAIN1", "P", "B", new Integer(46), new Integer(46), new Integer(6), new Integer(11), new Integer(0), "ACT INV $ WK 1", "", new Integer(0), "", "ACT INV $ WK 1", "", "", "TSAIN1", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSAIN2", "P", "B", new Integer(52), new Integer(52), new Integer(6), new Integer(11), new Integer(0), "ACT INV $ WK 2", "", new Integer(0), "", "ACT INV $ WK 2", "", "", "TSAIN2", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSAIN3", "P", "B", new Integer(58), new Integer(58), new Integer(6), new Integer(11), new Integer(0), "ACT INV $ WK 3", "", new Integer(0), "", "ACT INV $ WK 3", "", "", "TSAIN3", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSAIN4", "P", "B", new Integer(64), new Integer(64), new Integer(6), new Integer(11), new Integer(0), "ACT INV $ WK 4", "", new Integer(0), "", "ACT INV $ WK 4", "", "", "TSAIN4", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSFLG1", "A", "B", new Integer(70), new Integer(70), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG1", "", "", "TSFLG1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSFLG2", "A", "B", new Integer(71), new Integer(71), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG2", "", "", "TSFLG2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSFLG3", "A", "B", new Integer(72), new Integer(72), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG3", "", "", "TSFLG3", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSFLG4", "A", "B", new Integer(73), new Integer(73), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG4", "", "", "TSFLG4", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(65535), new Integer(37), new Integer(65535), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSPMAR", "P", "B", new Integer(74), new Integer(74), new Integer(6), new Integer(11), new Integer(0), "PLAN MARGIN $", "", new Integer(0), "", "PLAN MARGIN $", "", "", "TSPMAR", "", new Integer(0), new Integer(11), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("TSPMPC", "P", "B", new Integer(80), new Integer(80), new Integer(2), new Integer(3), new Integer(3), "PLAN MARGIN PERCENT", "", new Integer(0), "", "PMPC", "", "", "TSPMPC", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(65535), new Integer(0), new Integer(65535), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
 	}
 
-	private ColumnInfo doINDATEPColumn12(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAFLG1");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(12);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG1");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("Y=PERIOD 13 HAS A WEEK 5");
-		temp.setSystemColumnName("DAFLG1");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
+	private void doInwctlp(RecordFormat input){
+		ColumnInfo c1;
+		c1 = new ColumnInfo("WCREGN", "A", "B", new Integer(1), new Integer(1), new Integer(2), new Integer(0), new Integer(0), "REGION CODE", "", new Integer(0), "", "REGN", "", "", "WCREGN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCCMPY", "S", "B", new Integer(3), new Integer(3), new Integer(1), new Integer(1), new Integer(0), "COMPANY NUMBER", "4", new Integer(0), "", "CMPY", "", "", "WCCMPY", "", new Integer(0), new Integer(1), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCNAME", "A", "B", new Integer(4), new Integer(4), new Integer(25), new Integer(0), new Integer(0), "NAME", "", new Integer(0), "", "NAME", "", "", "WCNAME", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCSNAM", "A", "B", new Integer(29), new Integer(29), new Integer(15), new Integer(0), new Integer(0), "SHORT WAREHOUSE NAME", "", new Integer(0), "", "SNAM", "", "", "WCSNAM", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCADR1", "A", "B", new Integer(44), new Integer(44), new Integer(25), new Integer(0), new Integer(0), "ADDRESS LINE 1", "", new Integer(0), "", "ADDRESS", "", "", "WCADR1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCADR2", "A", "B", new Integer(69), new Integer(69), new Integer(25), new Integer(0), new Integer(0), "ADDRESS LINE 2", "", new Integer(0), "", "ADR2", "", "", "WCADR2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCCITY", "A", "B", new Integer(94), new Integer(94), new Integer(15), new Integer(0), new Integer(0), "CITY", "", new Integer(0), "", "CITY", "", "", "WCCITY", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCSTA", "A", "B", new Integer(109), new Integer(109), new Integer(2), new Integer(0), new Integer(0), "STATE", "", new Integer(0), "", "STA", "", "", "WCSTA", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCCTRY", "A", "B", new Integer(111), new Integer(111), new Integer(2), new Integer(0), new Integer(0), "COUNTRY", "", new Integer(0), "", "CTRY", "", "", "WCCTRY", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCZIP", "A", "B", new Integer(113), new Integer(113), new Integer(10), new Integer(0), new Integer(0), "ZIP CODE", "", new Integer(0), "", "ZIP", "", "", "WCZIP", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCAREA", "P", "B", new Integer(123), new Integer(123), new Integer(2), new Integer(3), new Integer(0), "AREA CODE", "", new Integer(0), "", "AREA", "", "", "WCAREA", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCPHON", "P", "B", new Integer(125), new Integer(125), new Integer(4), new Integer(7), new Integer(0), "TELEPHONE", "", new Integer(0), "", "PHON", "", "", "WCPHON", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCRCDT", "P", "B", new Integer(129), new Integer(129), new Integer(4), new Integer(7), new Integer(0), "LAST RECEIVED DATE", "", new Integer(0), "", "RCDT", "", "", "WCRCDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCSLDT", "P", "B", new Integer(133), new Integer(133), new Integer(4), new Integer(7), new Integer(0), "LAST SALES DATE", "", new Integer(0), "", "SLDT", "", "", "WCSLDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCRBAY", "P", "B", new Integer(137), new Integer(137), new Integer(2), new Integer(3), new Integer(0), "NUMBER OF RECEIVING BAYS", "", new Integer(0), "", "RBAY", "", "", "WCRBAY", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCPHDT", "P", "B", new Integer(139), new Integer(139), new Integer(4), new Integer(7), new Integer(0), "PHYSICAL INVENTORY DATE", "", new Integer(0), "", "PHDT", "", "", "WCPHDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCRECT", "S", "B", new Integer(143), new Integer(143), new Integer(4), new Integer(4), new Integer(0), "RECEIVING START TIME", "", new Integer(0), "", "RECT", "", "", "WCRECT", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCBPDT", "P", "B", new Integer(147), new Integer(147), new Integer(4), new Integer(7), new Integer(0), "RA PRINT START DATE", "", new Integer(0), "", "BPDT", "", "", "WCBPDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCEPDT", "P", "B", new Integer(151), new Integer(151), new Integer(4), new Integer(7), new Integer(0), "RA PRINT END DATE", "", new Integer(0), "", "EPDT", "", "", "WCEPDT", "", new Integer(0), new Integer(7), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCPODT", "S", "B", new Integer(155), new Integer(155), new Integer(4), new Integer(4), new Integer(0), "DATE IN PO #--MM DD", "", new Integer(0), "", "PODT", "", "", "WCPODT", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCPOSQ", "P", "B", new Integer(159), new Integer(159), new Integer(2), new Integer(3), new Integer(0), "PO SEQ #-LAST 3 DIGITS", "", new Integer(0), "", "POSQ", "", "", "WCPOSQ", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCSTAT", "A", "B", new Integer(161), new Integer(161), new Integer(1), new Integer(0), new Integer(0), "VENDOR STATUS= ACT,INACT,DIS", "", new Integer(0), "", "STATUS", "", "", "WCSTAT", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCOUTQ", "A", "B", new Integer(162), new Integer(162), new Integer(10), new Integer(0), new Integer(0), "PRINT QUEUE NAME", "", new Integer(0), "", "OUTQ", "", "", "WCOUTQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG1", "A", "B", new Integer(172), new Integer(172), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG1", "", "", "WCFLG1", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG2", "A", "B", new Integer(173), new Integer(173), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG2", "", "", "WCFLG2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG3", "A", "B", new Integer(174), new Integer(174), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG3", "", "", "WCFLG3", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG4", "A", "B", new Integer(175), new Integer(175), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG4", "", "", "WCFLG4", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG5", "A", "B", new Integer(176), new Integer(176), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG5", "", "", "WCFLG5", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG6", "A", "B", new Integer(177), new Integer(177), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG6", "", "", "WCFLG6", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG7", "A", "B", new Integer(178), new Integer(178), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG7", "", "", "WCFLG7", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG8", "A", "B", new Integer(179), new Integer(179), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG8", "", "", "WCFLG8", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG9", "A", "B", new Integer(180), new Integer(180), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG9", "", "", "WCFLG9", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLG0", "A", "B", new Integer(181), new Integer(181), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLG0", "", "", "WCFLG0", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGA", "A", "B", new Integer(182), new Integer(182), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGA", "", "", "WCFLGA", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGB", "A", "B", new Integer(183), new Integer(183), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGB", "", "", "WCFLGB", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGC", "A", "B", new Integer(184), new Integer(184), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGC", "", "", "WCFLGC", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGD", "A", "B", new Integer(185), new Integer(185), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGD", "", "", "WCFLGD", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGE", "A", "B", new Integer(186), new Integer(186), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGE", "", "", "WCFLGE", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGF", "A", "B", new Integer(187), new Integer(187), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGF", "", "", "WCFLGF", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGG", "A", "B", new Integer(188), new Integer(188), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGG", "", "", "WCFLGG", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGH", "A", "B", new Integer(189), new Integer(189), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGH", "", "", "WCFLGH", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGI", "A", "B", new Integer(190), new Integer(190), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGI", "", "", "WCFLGI", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGJ", "A", "B", new Integer(191), new Integer(191), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGJ", "", "", "WCFLGJ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGK", "A", "B", new Integer(192), new Integer(192), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGK", "", "", "WCFLGK", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGL", "A", "B", new Integer(193), new Integer(193), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGL", "", "", "WCFLGL", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGM", "A", "B", new Integer(194), new Integer(194), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGM", "", "", "WCFLGM", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGN", "A", "B", new Integer(195), new Integer(195), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGN", "", "", "WCFLGN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGO", "A", "B", new Integer(196), new Integer(196), new Integer(1), new Integer(0), new Integer(0), "MISCELLANEOUS FLAG", "", new Integer(0), "", "FLGO", "", "", "WCFLGO", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCLSEQ", "P", "B", new Integer(197), new Integer(197), new Integer(3), new Integer(5), new Integer(0), "LOAD # SEQ", "4", new Integer(0), "", "LOAD # SEQ", "", "", "WCLSEQ", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCMSGQ", "A", "B", new Integer(200), new Integer(200), new Integer(10), new Integer(0), new Integer(0), "MSGQ", "", new Integer(0), "", "MSGQ", "", "", "WCMSGQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLD1", "P", "B", new Integer(210), new Integer(210), new Integer(5), new Integer(9), new Integer(0), "MISC FIELD - NOT USED", "L", new Integer(0), "", "MISC", "", "", "WCFLD1", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLD2", "P", "B", new Integer(215), new Integer(215), new Integer(5), new Integer(9), new Integer(0), "MISC FIELD - NOT USED", "L", new Integer(0), "", "MISC", "", "", "WCFLD2", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLD3", "A", "B", new Integer(220), new Integer(220), new Integer(10), new Integer(0), new Integer(0), "MISC FIELD - NOT USED", "", new Integer(0), "", "MISC", "", "", "WCFLD3", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLD4", "A", "B", new Integer(230), new Integer(230), new Integer(10), new Integer(0), new Integer(0), "MISC FIELD - NOT USED", "", new Integer(0), "", "MISC", "", "", "WCFLD4", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCCSEQ", "A", "B", new Integer(240), new Integer(240), new Integer(1), new Integer(0), new Integer(0), "COMPANY SEQUENCE", "", new Integer(0), "", "CMPY", "SEQ", "", "WCCSEQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCDSEQ", "A", "B", new Integer(241), new Integer(241), new Integer(1), new Integer(0), new Integer(0), "DIVISION SEQUENCE", "", new Integer(0), "", "DIV", "SEQ", "", "WCDSEQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCDIV", "A", "B", new Integer(242), new Integer(242), new Integer(2), new Integer(0), new Integer(0), "DIVISION", "", new Integer(0), "", "DIV", "", "", "WCDIV", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCRSEQ", "A", "B", new Integer(244), new Integer(244), new Integer(1), new Integer(0), new Integer(0), "REGION SEQUENCE", "", new Integer(0), "", "RGN", "SEQ", "", "WCRSEQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCSSEQ", "A", "B", new Integer(245), new Integer(245), new Integer(1), new Integer(0), new Integer(0), "SUB-REGION SEQUENCE", "", new Integer(0), "", "SUB-RGN", "SEQ", "", "WCSSEQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCSRGN", "A", "B", new Integer(246), new Integer(246), new Integer(2), new Integer(0), new Integer(0), "SUB-REGION", "", new Integer(0), "", "SUB-RGN", "", "", "WCSRGN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCWRGN", "A", "B", new Integer(248), new Integer(248), new Integer(2), new Integer(0), new Integer(0), "WHSE/REPORT REGION", "", new Integer(0), "", "WHSE/RPT", "REGN", "", "WCWRGN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGP", "A", "B", new Integer(250), new Integer(250), new Integer(1), new Integer(0), new Integer(0), "PRICE/COSTCO", "", new Integer(0), "", "PRICE/", "COSTCO", "", "WCFLGP", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCSNM2", "A", "B", new Integer(251), new Integer(251), new Integer(10), new Integer(0), new Integer(0), "SHORT WHSE NAME #2", "", new Integer(0), "", "SHORT WHSE", "NAME #2", "", "WCSNM2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGQ", "A", "B", new Integer(261), new Integer(261), new Integer(1), new Integer(0), new Integer(0), "WHSE/REPORT REGION SEQUENCE", "", new Integer(0), "", "WHSE/RPT", "REGN SEQ", "", "WCFLGQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGR", "A", "B", new Integer(262), new Integer(262), new Integer(1), new Integer(0), new Integer(0), "FLGR", "", new Integer(0), "", "FLGR", "", "", "WCFLGR", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGS", "A", "B", new Integer(263), new Integer(263), new Integer(1), new Integer(0), new Integer(0), "FLGS", "", new Integer(0), "", "FLGS", "", "", "WCFLGS", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGT", "A", "B", new Integer(264), new Integer(264), new Integer(1), new Integer(0), new Integer(0), "FLGT", "", new Integer(0), "", "FLGT", "", "", "WCFLGT", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGU", "A", "B", new Integer(265), new Integer(265), new Integer(1), new Integer(0), new Integer(0), "FLGU", "", new Integer(0), "", "FLGU", "", "", "WCFLGU", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGV", "A", "B", new Integer(266), new Integer(266), new Integer(1), new Integer(0), new Integer(0), "FLGV", "", new Integer(0), "", "FLGV", "", "", "WCFLGV", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGW", "A", "B", new Integer(267), new Integer(267), new Integer(1), new Integer(0), new Integer(0), "FLGW", "", new Integer(0), "", "FLGW", "", "", "WCFLGW", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGX", "A", "B", new Integer(268), new Integer(268), new Integer(1), new Integer(0), new Integer(0), "FLGX", "", new Integer(0), "", "FLGX", "", "", "WCFLGX", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGY", "A", "B", new Integer(269), new Integer(269), new Integer(1), new Integer(0), new Integer(0), "FLGY", "", new Integer(0), "", "FLGY", "", "", "WCFLGY", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCFLGZ", "A", "B", new Integer(270), new Integer(270), new Integer(1), new Integer(0), new Integer(0), "FLGZ", "", new Integer(0), "", "FLGZ", "", "", "WCFLGZ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCWHSQ", "A", "B", new Integer(271), new Integer(271), new Integer(3), new Integer(0), new Integer(0), "SEQ", "", new Integer(0), "", "SEQ", "", "", "WCWHSQ", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(37), new Integer(37), new Integer(37), new Integer(0), new Integer(0), new Integer(4352), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("WCWHS5", "P", "B", new Integer(274), new Integer(274), new Integer(3), new Integer(5), new Integer(0), "WAREHOUSE NUMBER", "", new Integer(0), "", "WHS5", "", "", "WCWHS5", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(37), new Integer(0), new Integer(37), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
 	}
-
-	private ColumnInfo doINDATEPColumn13(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAFLG2");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(13);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG2");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG");
-		temp.setSystemColumnName("DAFLG2");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn14(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAFLG3");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(14);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG3");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG");
-		temp.setSystemColumnName("DAFLG3");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn15(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAFSYR");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(15);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(5);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FIS-YR          _CCYY");
-		temp.setStorage(3);
-		temp.setNumericPrecision(new Integer(5));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(new Integer(10));
-		temp.setColumnText("FISCAL YEAR _CCYY");
-		temp.setSystemColumnName("DAFSYR");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn2(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAPER");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(2);
-		temp.setDataType(ColumnInfo.NUMERIC);
-		temp.setLength(2);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("PERIOD");
-		temp.setStorage(2);
-		temp.setNumericPrecision(new Integer(2));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("PERIOD");
-		temp.setSystemColumnName("DAPER");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn3(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DADAY");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(3);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(1);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("DAY");
-		temp.setStorage(1);
-		temp.setNumericPrecision(new Integer(1));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("DAY OF WEEK MONDAY=1");
-		temp.setSystemColumnName("DADAY");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn4(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAFYR");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(4);
-		temp.setDataType(ColumnInfo.NUMERIC);
-		temp.setLength(2);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FY");
-		temp.setStorage(2);
-		temp.setNumericPrecision(new Integer(2));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("FISCAL YEAR");
-		temp.setSystemColumnName("DAFYR");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn5(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAWDT1");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(5);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(7);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("WDT1");
-		temp.setStorage(4);
-		temp.setNumericPrecision(new Integer(7));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("WK1 ENDING DATE");
-		temp.setSystemColumnName("DAWDT1");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn6(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAWDT2");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(6);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(7);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("WDT2");
-		temp.setStorage(4);
-		temp.setNumericPrecision(new Integer(7));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("WK2 ENDING DATE");
-		temp.setSystemColumnName("DAWDT2");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn7(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAWDT3");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(7);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(7);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("WDT3");
-		temp.setStorage(4);
-		temp.setNumericPrecision(new Integer(7));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("WK3 ENDING DATE");
-		temp.setSystemColumnName("DAWDT3");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn8(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAWDT4");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(8);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(7);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("WDT4");
-		temp.setStorage(4);
-		temp.setNumericPrecision(new Integer(7));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("WK4 ENDING DATE");
-		temp.setSystemColumnName("DAWDT4");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDATEPColumn9(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DAFYDT");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(9);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(7);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FYDT");
-		temp.setStorage(4);
-		temp.setNumericPrecision(new Integer(7));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("FISCAL YEAR END DATE");
-		temp.setSystemColumnName("DAFYDT");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private List<ColumnInfo> doInddesp(String tableName, String schema) {
-		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
-		result.add(doINDDESPColumn1(result, tableName, schema));
-		result.add(doINDDESPColumn2(result, tableName, schema));
-		result.add(doINDDESPColumn3(result, tableName, schema));
-		result.add(doINDDESPColumn4(result, tableName, schema));
-		result.add(doINDDESPColumn5(result, tableName, schema));
-		result.add(doINDDESPColumn6(result, tableName, schema));
-		result.add(doINDDESPColumn7(result, tableName, schema));
-		result.add(doINDDESPColumn8(result, tableName, schema));
-		result.add(doINDDESPColumn9(result, tableName, schema));
-		result.add(doINDDESPColumn10(result, tableName, schema));
-		result.add(doINDDESPColumn11(result, tableName, schema));
-		result.add(doINDDESPColumn12(result, tableName, schema));
-		result.add(doINDDESPColumn13(result, tableName, schema));
-		result.add(doINDDESPColumn14(result, tableName, schema));
-		result.add(doINDDESPColumn15(result, tableName, schema));
-		result.add(doINDDESPColumn16(result, tableName, schema));
-		result.add(doINDDESPColumn17(result, tableName, schema));
-		result.add(doINDDESPColumn18(result, tableName, schema));
-		result.add(doINDDESPColumn19(result, tableName, schema));
-		result.add(doINDDESPColumn20(result, tableName, schema));
-		return result;
-	}
-
-	private ColumnInfo doINDDESPColumn1(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDDEPT");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(1);
-		temp.setDataType(ColumnInfo.NUMERIC);
-		temp.setLength(2);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("DEPT");
-		temp.setStorage(2);
-		temp.setNumericPrecision(new Integer(2));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("DEPARTMENT NUMBER");
-		temp.setSystemColumnName("DDDEPT");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn10(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG5");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(7);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG5");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 5");
-		temp.setSystemColumnName("DDFLG5");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn11(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDUPCD");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(11);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(2);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("UPC DEFAULT LENGTH");
-		temp.setStorage(2);
-		temp.setNumericPrecision(new Integer(2));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("UPC DEFAULT LENGTH");
-		temp.setSystemColumnName("DDUPCD");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn12(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG6");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(12);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG6");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 6");
-		temp.setSystemColumnName("DDFLG6");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn13(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG7");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(13);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG7");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 7");
-		temp.setSystemColumnName("DDFLG7");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn14(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG8");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(14);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG8");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 8");
-		temp.setSystemColumnName("DDFLG8");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn15(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG9");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(15);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG9");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 9");
-		temp.setSystemColumnName("DDFLG9");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn16(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG0");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(16);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG0");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 0");
-		temp.setSystemColumnName("DDFLG0");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn17(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDLCCD");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(17);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("MANDATORY      PO DISTRO");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MANDATORY PO DISTRIBUTION");
-		temp.setSystemColumnName("DDLCCD");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn18(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDHZCD");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(18);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLAG");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG");
-		temp.setSystemColumnName("DDHZCD");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn19(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDBARCODE");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(19);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("BARCODE FLAG");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("BARCODE FLAG");
-		temp.setSystemColumnName("DDBARCODE");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn2(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDDESL");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(2);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(20);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("DESL");
-		temp.setStorage(20);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(20));
-		temp.setCharacterOctetLength(new Integer(20));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("LONG DEPT DESC");
-		temp.setSystemColumnName("DDDESL");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn20(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDADAY");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(20);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(3);
-		temp.setNumericScale(new Integer(0));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("AUTO       DIST        DAYS");
-		temp.setStorage(2);
-		temp.setNumericPrecision(new Integer(0));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("AUTO-DISTRIBUTION DAYS OUT");
-		temp.setSystemColumnName("DDADAY");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn3(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDDESS");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(3);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(9);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("DESS");
-		temp.setStorage(9);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(9));
-		temp.setCharacterOctetLength(new Integer(9));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("SHORT DEPT DESC");
-		temp.setSystemColumnName("DDDESS");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn4(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDLOSB");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(4);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(5);
-		temp.setNumericScale(new Integer(2));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("LOW%");
-		temp.setStorage(3);
-		temp.setNumericPrecision(new Integer(5));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("LOW% FOR SB CALC");
-		temp.setSystemColumnName("DDLOSB");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn5(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDHISB");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(5);
-		temp.setDataType(ColumnInfo.DECIMAL);
-		temp.setLength(5);
-		temp.setNumericScale(new Integer(2));
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("HIGH %");
-		temp.setStorage(3);
-		temp.setNumericPrecision(new Integer(5));
-		temp.setCCSID(null);
-		temp.setTableSchema(schema);
-		temp.setColumnDefault("0");
-		temp.setCharacterMaximumLength(null);
-		temp.setCharacterOctetLength(null);
-		temp.setNumericPrecisionRadix(new Integer(10));
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("HIGH % FOR SB CALC");
-		temp.setSystemColumnName("DDHISB");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn6(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG1");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(6);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG1");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 1");
-		temp.setSystemColumnName("DDFLG1");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn7(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG2");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(7);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG2");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 2");
-		temp.setSystemColumnName("DDFLG2");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn8(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG3");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(7);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG3");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 3");
-		temp.setSystemColumnName("DDFLG3");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private ColumnInfo doINDDESPColumn9(ArrayList<ColumnInfo> result,
-			String tableName, String schema) {
-		ColumnInfo temp;
-		temp = new ColumnInfo();
-		temp.setColumnName("DDFLG4");
-		temp.setTableName(tableName);
-		temp.setTableOwner("DFTOWNER");
-		temp.setOrdinalPosition(7);
-		temp.setDataType(ColumnInfo.CHAR);
-		temp.setLength(1);
-		temp.setNumericScale(null);
-		temp.setIsNullable('N');
-		temp.setIsUpdateable('Y');
-		temp.setLongComment(null);
-		temp.setHasDefault('Y');
-		temp.setColumnHeading("FLG4");
-		temp.setStorage(1);
-		temp.setNumericPrecision(null);
-		temp.setCCSID(new Integer(37));
-		temp.setTableSchema(schema);
-		temp.setColumnDefault(" ");
-		temp.setCharacterMaximumLength(new Integer(1));
-		temp.setCharacterOctetLength(new Integer(1));
-		temp.setNumericPrecisionRadix(null);
-		temp.setDateTimePrecision(null);
-		temp.setColumnText("MISCELLANEOUS FLAG 4");
-		temp.setSystemColumnName("DDFLG4");
-		temp.setSystemTableName(tableName);
-		temp.setSystemSchemaName(schema);
-		temp.setUserDefinedTypeSchema(null);
-		temp.setUserDefinedTypeName(null);
-		temp.setIsIdentity("NO");
-		temp.setIdentityGeneration(null);
-		temp.setIdentityStart(null);
-		temp.setIdentityIncrement(null);
-		temp.setIdentityMinimum(null);
-		temp.setIdentityMaximum(null);
-		temp.setIdentityCache(null);
-		temp.setIdentityOrder(null);
-		temp.setColumnExpression(null);
-		temp.setHidden('N');
-		temp.setHasFieldProc('N');
-		return temp;
-	}
-
-	private List<ColumnInfo> doInpslip(String tableName, String schemaName) {
-		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
-		result.add(new ColumnInfo("SICMPY", tableName, "DFTOWNER", 1,
-				"NUMERIC", 1, 0, 'N', 'Y', null, 'N', "CMPY", 1, 1, null,
-				schemaName, null, null, null, 10, null, "COMPANY NUMBER",
-				"SICMPY    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIFYR", tableName, "DFTOWNER", 2, "NUMERIC",
-				2, 0, 'N', 'Y', null, 'N', "FY", 2, 2, null, schemaName, null,
-				null, null, 10, null, "FISCAL YEAR", "SIFYR     ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIPER", tableName, "DFTOWNER", 3, "NUMERIC",
-				2, 0, 'N', 'Y', null, 'N', "PER", 2, 2, null, schemaName, null,
-				null, null, 10, null, "PER", "SIPER     ", "INPSLI30  ",
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIREGN", tableName, "DFTOWNER", 4, "CHAR",
-				2, null, 'N', 'Y', null, 'N', "REGN", 2, null, 37, schemaName,
-				null, 2, 2, null, null, "REGION CODE", "SIREGN    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIDEPT", tableName, "DFTOWNER", 5,
-				"NUMERIC", 2, 0, 'N', 'Y', null, 'N', "DEPT", 2, 2, null,
-				schemaName, null, null, null, 10, null, "DEPARTMENT NUMBER",
-				"SIDEPT    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIPSAL", tableName, "DFTOWNER", 6,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" PERIOD             PLAN SALES $", 5, 9, null, schemaName,
-				null, null, null, 10, null, " PERIOD  PLAN SALES $",
-				"SIPSAL    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIPINV", tableName, "DFTOWNER", 7,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" PERIOD             PLAN INV.$", 5, 9, null, schemaName, null,
-				null, null, 10, null, " PERIOD  PLAN INV.$", "SIPINV    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIASAL", tableName, "DFTOWNER", 8,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" PERIOD             ACT SALES $", 5, 9, null, schemaName,
-				null, null, null, 10, null, " PERIOD  ACT SALES $",
-				"SIASAL    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIASL1", tableName, "DFTOWNER", 9,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             SALES WK1", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  SALES WK1", "SIASL1    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIASL2", tableName, "DFTOWNER", 10,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             SALES WK2", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  SALES WK2", "SIASL2    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIASL3", tableName, "DFTOWNER", 11,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             SALES WK3", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  SALES WK3", "SIASL3    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIASL4", tableName, "DFTOWNER", 12,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             SALES WK4", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  SALES WK4", "SIASL4    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIAYTD", tableName, "DFTOWNER", 13,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             YTD SALES", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  YTD SALES", "SIAYTD    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIAINV", tableName, "DFTOWNER", 14,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" PERIOD             ACT INV.$", 5, 9, null, schemaName, null,
-				null, null, 10, null, " PERIOD  ACT INV.$", "SIAINV    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIAIN1", tableName, "DFTOWNER", 15,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             INV. WK1", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  INV. WK1", "SIAIN1    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIAIN2", tableName, "DFTOWNER", 16,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             INV. WK2", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  INV. WK2", "SIAIN2    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIAIN3", tableName, "DFTOWNER", 17,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             INV. WK3", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  INV. WK3", "SIAIN3    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIAIN4", tableName, "DFTOWNER", 18,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				" ACTUAL             INV. WK4", 5, 9, null, schemaName, null,
-				null, null, 10, null, " ACTUAL  INV. WK4", "SIAIN4    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIFLG1", tableName, "DFTOWNER", 19, "CHAR",
-				1, null, 'N', 'Y', null, 'N', "FLG1", 1, null, 37, schemaName,
-				null, 1, 1, null, null, "MISCELLANEOUS FLAG", "SIFLG1    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIFLG2", tableName, "DFTOWNER", 20, "CHAR",
-				1, null, 'N', 'Y', null, 'N', "FLG2", 1, null, 37, schemaName,
-				null, 1, 1, null, null, "MISCELLANEOUS FLAG", "SIFLG2    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIFLG3", tableName, "DFTOWNER", 21, "CHAR",
-				1, null, 'N', 'Y', null, 'N', "FLG3", 1, null, 37, schemaName,
-				null, 1, 1, null, null, "MISCELLANEOUS FLAG", "SIFLG3    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIFLG4", tableName, "DFTOWNER", 22, "CHAR",
-				1, null, 'N', 'Y', null, 'N', "FLG4", 1, null, 37, schemaName,
-				null, 1, 1, null, null, "MISCELLANEOUS FLAG", "SIFLG4    ",
-				"INPSLI30  ", schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIPMAR", tableName, "DFTOWNER", 23,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N', "PMAR", 5, 9, null,
-				schemaName, null, null, null, 10, null, "PLAN MARGIN DOLLARS",
-				"SIPMAR    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIPMPC", tableName, "DFTOWNER", 24,
-				"DECIMAL", 3, 3, 'N', 'Y', null, 'N', "PMPC", 2, 3, null,
-				schemaName, null, null, null, 10, null, "PLAN MARGIN PERCENT",
-				"SIPMPC    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIMD$", tableName, "DFTOWNER", 25,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N', "MD$", 5, 9, null,
-				schemaName, null, null, null, 10, null,
-				"PLAN MARKDOWNS DOLLARS", "SIMD$     ", "INPSLI30  ",
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIMDP", tableName, "DFTOWNER", 26,
-				"DECIMAL", 5, 5, 'N', 'Y', null, 'N', "MDP", 3, 5, null,
-				schemaName, null, null, null, 10, null,
-				"PLAN MARKDOWNS PERCENT", "SIMDP     ", "INPSLI30  ",
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIDD$", tableName, "DFTOWNER", 27,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N', "DD$", 5, 9, null,
-				schemaName, null, null, null, 10, null, "DAM / DEST DOLLARS",
-				"SIDD$     ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIDDP", tableName, "DFTOWNER", 28,
-				"DECIMAL", 5, 5, 'N', 'Y', null, 'N', "DDP", 3, 5, null,
-				schemaName, null, null, null, 10, null, "DAM / DEST PERCENT",
-				"SIDDP     ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SISHK$", tableName, "DFTOWNER", 29,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N', "SHK$", 5, 9, null,
-				schemaName, null, null, null, 10, null, "SHRINK DOLLARS",
-				"SISHK$    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SISHKP", tableName, "DFTOWNER", 30,
-				"DECIMAL", 5, 5, 'N', 'Y', null, 'N', "SHKP", 3, 5, null,
-				schemaName, null, null, null, 10, null, "SHRINK PERCENT",
-				"SISHKP    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIMU$", tableName, "DFTOWNER", 31,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N', "MU$", 5, 9, null,
-				schemaName, null, null, null, 10, null, "PLAN MARKUP DOLLARS",
-				"SIMU$     ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIMUP", tableName, "DFTOWNER", 32,
-				"DECIMAL", 5, 5, 'N', 'Y', null, 'N', "MUP", 3, 5, null,
-				schemaName, null, null, null, 10, null, "PLAN MARKUP PERCENT",
-				"SIMUP     ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIDAIN", tableName, "DFTOWNER", 33,
-				"DECIMAL", 9, 0, 'N', 'Y', null, 'N',
-				"DAILY               AVG.                INV.$", 5, 9, null,
-				schemaName, null, null, null, 10, null, "DAILY AVG. INV.$",
-				"SIDAIN    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("SIWHS5", tableName, "DFTOWNER", 34,
-				"DECIMAL", 5, 0, 'N', 'Y', null, 'N', "WHS5", 3, 5, null,
-				schemaName, null, null, null, 10, null, "WAREHOUSE NUMBER",
-				"SIWHS5    ", "INPSLI30  ", schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		return result;
-	}
-
-	private List<ColumnInfo> doIntslip(String tableName, String schemaName) {
-		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
-		result.add(new ColumnInfo("TSCMPY", tableName, "DFTOWNER", 1,
-				"NUMERIC", 1, 0, 'N', 'Y', null, 'Y', "CMPY", 1, 1, null,
-				schemaName, "0", null, null, 10, null, "COMPANY NUMBER",
-				"TSCMPY    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSFYR", tableName, "DFTOWNER", 2, "NUMERIC",
-				2, 0, 'N', 'Y', null, 'Y', "FY", 2, 2, null, schemaName, "0",
-				null, null, 10, null, "FISCAL YEAR", "TSFYR     ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSPER", tableName, "DFTOWNER", 3, "NUMERIC",
-				2, 0, 'N', 'Y', null, 'Y', "PERIOD", 2, 2, null, schemaName,
-				"0", null, null, 10, null, "PERIOD", "TSPER     ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSREGN", tableName, "DFTOWNER", 4, "CHAR",
-				2, null, 'N', 'Y', null, 'Y', "REGN", 2, null, 37, schemaName,
-				" ", 2, 2, null, null, "REGION CODE", "TSREGN    ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSDEPT", tableName, "DFTOWNER", 5,
-				"NUMERIC", 2, 0, 'N', 'Y', null, 'Y', "DEPT", 2, 2, null,
-				schemaName, "0", null, null, 10, null, "DEPARTMENT NUMBER",
-				"TSDEPT    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSPSAL", tableName, "DFTOWNER", 6,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "PLAN SALES $", 6, 11,
-				null, schemaName, "0", null, null, 10, null, "PLAN SALES $",
-				"TSPSAL    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSPINV", tableName, "DFTOWNER", 7,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "PLAN INV $", 6, 11,
-				null, schemaName, "0", null, null, 10, null, "PLAN INV $",
-				"TSPINV    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSASL1", tableName, "DFTOWNER", 8,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT SALES $ WK 1", 6,
-				11, null, schemaName, "0", null, null, 10, null,
-				"ACT SALES $ WK 1", "TSASL1    ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("TSASL2", tableName, "DFTOWNER", 9,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT SALES $ WK 2", 6,
-				11, null, schemaName, "0", null, null, 10, null,
-				"ACT SALES $ WK 2", "TSASL2    ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("TSASL3", tableName, "DFTOWNER", 10,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT SALES $ WK 3", 6,
-				11, null, schemaName, "0", null, null, 10, null,
-				"ACT SALES $ WK 3", "TSASL3    ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("TSASL4", tableName, "DFTOWNER", 11,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT SALES $ WK 4", 6,
-				11, null, schemaName, "0", null, null, 10, null,
-				"ACT SALES $ WK 4", "TSASL4    ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("TSAIN1", tableName, "DFTOWNER", 12,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT INV $ WK 1", 6, 11,
-				null, schemaName, "0", null, null, 10, null, "ACT INV $ WK 1",
-				"TSAIN1    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSAIN2", tableName, "DFTOWNER", 13,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT INV $ WK 2", 6, 11,
-				null, schemaName, "0", null, null, 10, null, "ACT INV $ WK 2",
-				"TSAIN2    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSAIN3", tableName, "DFTOWNER", 14,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT INV $ WK 3", 6, 11,
-				null, schemaName, "0", null, null, 10, null, "ACT INV $ WK 3",
-				"TSAIN3    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSAIN4", tableName, "DFTOWNER", 15,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "ACT INV $ WK 4", 6, 11,
-				null, schemaName, "0", null, null, 10, null, "ACT INV $ WK 4",
-				"TSAIN4    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSFLG1", tableName, "DFTOWNER", 16, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG1", 1, null, 37, schemaName,
-				" ", 1, 1, null, null, "MISCELLANEOUS FLAG", "TSFLG1    ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSFLG2", tableName, "DFTOWNER", 17, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG2", 1, null, 37, schemaName,
-				" ", 1, 1, null, null, "MISCELLANEOUS FLAG", "TSFLG2    ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSFLG3", tableName, "DFTOWNER", 18, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG3", 1, null, 37, schemaName,
-				" ", 1, 1, null, null, "MISCELLANEOUS FLAG", "TSFLG3    ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSFLG4", tableName, "DFTOWNER", 19, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG4", 1, null, 37, schemaName,
-				" ", 1, 1, null, null, "MISCELLANEOUS FLAG", "TSFLG4    ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSPMAR", tableName, "DFTOWNER", 20,
-				"DECIMAL", 11, 0, 'N', 'Y', null, 'Y', "PLAN MARGIN $", 6, 11,
-				null, schemaName, "0", null, null, 10, null, "PLAN MARGIN $",
-				"TSPMAR    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("TSPMPC", tableName, "DFTOWNER", 21,
-				"DECIMAL", 3, 3, 'N', 'Y', null, 'Y', "PMPC", 2, 3, null,
-				schemaName, "0", null, null, 10, null, "PLAN MARGIN PERCENT",
-				"TSPMPC    ", tableName, schemaName, null, null, "NO", null,
-				null, null, null, null, null, null, null, null, 'N', 'N'));
-
-		return result;
-	}
-
-	private List<ColumnInfo> doInwctlp(String tableName, String schemaName) {
-		ArrayList<ColumnInfo> result = new ArrayList<ColumnInfo>();
-		result.add(new ColumnInfo("WCREGN", tableName, "DFTOWNER", 1, "CHAR",
-				2, null, 'N', 'Y', null, 'Y', "REGN", 2, null, new Integer(37),
-				schemaName, " ", new Integer(2), new Integer(2), null, null,
-				"REGION CODE", "WCREGN ", tableName, schemaName, null, null,
-				"NO", null, null, null, null, null, null, null, null, null,
-				'N', 'N'));
-		result.add(new ColumnInfo("WCCMPY", tableName, "DFTOWNER", 2,
-				"NUMERIC", 1, new Integer(0), 'N', 'Y', null, 'Y', "CMPY", 1,
-				new Integer(1), null, schemaName, " ", new Integer(0), null,
-				null, new Integer(10), "COMPANY NUMBER", "WCCMPY ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCNAME", tableName, "DFTOWNER", 3, "CHAR",
-				25, null, 'N', 'Y', null, 'Y', "NAME", 25, null,
-				new Integer(37), schemaName, " ", new Integer(25), new Integer(
-						25), null, null, "NAME", "WCNAME ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCSNAM", tableName, "DFTOWNER", 4, "CHAR",
-				15, null, 'N', 'Y', null, 'Y', "SNAM", 15, null,
-				new Integer(37), schemaName, " ", new Integer(15), new Integer(
-						15), null, null, "SHORT WAREHOUSE NAME", "WCSNAM ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCADR1", tableName, "DFTOWNER", 5, "CHAR",
-				25, null, 'N', 'Y', null, 'Y', "ADDRESS", 25, null,
-				new Integer(37), schemaName, " ", new Integer(25), new Integer(
-						25), null, null, "ADDRESS LINE 1", "WCADR1 ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCADR2", tableName, "DFTOWNER", 6, "CHAR",
-				25, null, 'N', 'Y', null, 'Y', "ADR2", 25, null,
-				new Integer(37), schemaName, " ", 25, 25, null, null,
-				"ADDRESS LINE 2", "WCADR2 ", tableName, schemaName, null, null,
-				"NO", null, null, null, null, null, null, null, null, null,
-				'N', 'N'));
-		result.add(new ColumnInfo("WCCITY", tableName, "DFTOWNER", 7, "CHAR",
-				15, null, 'N', 'Y', null, 'Y', "CITY", 15, null,
-				new Integer(37), schemaName, " ", 15, 15, null, null, "CITY",
-				"WCCITY ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCSTA", tableName, "DFTOWNER", 8, "CHAR", 2,
-				null, 'N', 'Y', null, 'Y', "STA", 2, null, new Integer(37),
-				schemaName, " ", 2, 2, null, null, "STATE", "WCSTA ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCCTRY", tableName, "DFTOWNER", 9, "CHAR",
-				2, null, 'N', 'Y', null, 'Y', "CTRY", 2, null, new Integer(37),
-				schemaName, " ", 2, 2, null, null, "COUNTRY", "WCCTRY ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCZIP", tableName, "DFTOWNER", 10, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "ZIP", 10, null,
-				new Integer(37), schemaName, " ", 10, 10, null, null,
-				"ZIP CODE", "WCZIP ", tableName, schemaName, null, null, "NO",
-				null, null, null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCAREA", tableName, "DFTOWNER", 11,
-				"DECIMAL", 3, new Integer(0), 'N', 'Y', null, 'Y', "AREA", 2,
-				new Integer(3), null, schemaName, "0", null, null, 10, null,
-				"AREA CODE", "WCAREA ", tableName, schemaName, null, null,
-				"NO", null, null, null, null, null, null, null, null, null,
-				'N', 'N'));
-		result.add(new ColumnInfo("WCPHON", tableName, "DFTOWNER", 12,
-				"DECIMAL", 7, new Integer(0), 'N', 'Y', null, 'Y', "PHON", 4,
-				new Integer(7), null, schemaName, "0", null, null, 10, null,
-				"TELEPHONE", "WCPHON ", tableName, schemaName, null, null,
-				"NO", null, null, null, null, null, null, null, null, null,
-				'N', 'N'));
-		result.add(new ColumnInfo("WCRCDT", tableName, "DFTOWNER", 13,
-				"DECIMAL", 7, new Integer(0), 'N', 'Y', null, 'Y', "RCDT", 4,
-				new Integer(7), null, schemaName, "0", null, null, 10, null,
-				"LAST RECEIVED DATE", "WCRCDT ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCSLDT", tableName, "DFTOWNER", 14,
-				"DECIMAL", 7, new Integer(0), 'N', 'Y', null, 'Y', "SLDT", 4,
-				new Integer(7), null, schemaName, "0", null, null, 10, null,
-				"LAST SALES DATE", "WCSLDT ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCRBAY", tableName, "DFTOWNER", 15,
-				"DECIMAL", 3, new Integer(0), 'N', 'Y', null, 'Y', "RBAY", 2,
-				new Integer(3), null, schemaName, "0", null, null, 10, null,
-				"NUMBER OF RECEIVING BAYS", "WCRBAY ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCPHDT", tableName, "DFTOWNER", 16,
-				"DECIMAL", 7, new Integer(0), 'N', 'Y', null, 'Y', "PHDT", 4,
-				new Integer(7), null, schemaName, "0", null, null, 10, null,
-				"PHYSICAL INVENTORY DATE", "WCPHDT ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCRECT", tableName, "DFTOWNER", 17,
-				"NUMERIC", 4, new Integer(0), 'N', 'Y', null, 'Y', "RECT", 4,
-				new Integer(4), null, schemaName, "0", null, null, 10, null,
-				"RECEIVING START TIME", "WCRECT ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCBPDT", tableName, "DFTOWNER", 18,
-				"DECIMAL", 7, new Integer(0), 'N', 'Y', null, 'Y', "BPDT", 4,
-				new Integer(7), null, schemaName, "0", null, null, 10, null,
-				"RA PRINT START DATE", "WCBPDT ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCEPDT", tableName, "DFTOWNER", 19,
-				"DECIMAL", 7, new Integer(0), 'N', 'Y', null, 'Y', "EPDT", 4,
-				new Integer(7), null, schemaName, "0", null, null, 10, null,
-				"RA PRINT END DATE", "WCEPDT ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCPODT", tableName, "DFTOWNER", 20,
-				"NUMERIC", 4, new Integer(0), 'N', 'Y', null, 'Y', "PODT", 4,
-				new Integer(4), null, schemaName, "0", null, null, 10, null,
-				"DATE IN PO #--MM DD", "WCPODT ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCPOSQ", tableName, "DFTOWNER", 21,
-				"DECIMAL", 3, new Integer(0), 'N', 'Y', null, 'Y', "POSQ", 2,
-				new Integer(3), null, schemaName, "0", null, null, 10, null,
-				"PO SEQ #-LAST 3 DIGITS", "WCPOSQ ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCSTAT", tableName, "DFTOWNER", 22, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "STATUS", 1, null,
-				new Integer(37), schemaName, " ", 1, 1, null, null,
-				"VENDOR STATUS= ACT,INACT,DIS", "WCSTAT ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCOUTQ", tableName, "DFTOWNER", 23, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "OUTQ", 10, null,
-				new Integer(37), schemaName, " ", 10, 10, null, null,
-				"PRINT QUEUE NAME", "WCOUTQ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG1", tableName, "DFTOWNER", 24, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG1", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG1 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG2", tableName, "DFTOWNER", 25, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG2", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG2 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG3", tableName, "DFTOWNER", 26, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG3", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG3 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG4", tableName, "DFTOWNER", 27, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG4", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG4 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG5", tableName, "DFTOWNER", 28, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG5", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG5 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG6", tableName, "DFTOWNER", 29, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG6", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG6 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG7", tableName, "DFTOWNER", 30, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG7", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG7 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG8", tableName, "DFTOWNER", 31, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG8", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG8 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG9", tableName, "DFTOWNER", 32, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG9", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG9 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLG0", tableName, "DFTOWNER", 33, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLG0", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLG0 ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGA", tableName, "DFTOWNER", 34, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGA", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGA ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGB", tableName, "DFTOWNER", 35, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGB", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGB ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGC", tableName, "DFTOWNER", 36, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGC", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGC ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGD", tableName, "DFTOWNER", 37, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGD", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGD ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGE", tableName, "DFTOWNER", 38, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGE", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGE ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGF", tableName, "DFTOWNER", 39, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGF", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGF ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGG", tableName, "DFTOWNER", 40, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGG", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGG ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGH", tableName, "DFTOWNER", 41, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGH", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGH ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGI", tableName, "DFTOWNER", 42, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGI", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGI ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGJ", tableName, "DFTOWNER", 43, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGJ", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGJ ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGK", tableName, "DFTOWNER", 44, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGK", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGK ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGL", tableName, "DFTOWNER", 45, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGL", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGL ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGM", tableName, "DFTOWNER", 46, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGM", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGM ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGN", tableName, "DFTOWNER", 47, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGN", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGN ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGO", tableName, "DFTOWNER", 48, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGO", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "MISCELLANEOUS FLAG",
-				"WCFLGO ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCLSEQ", tableName, "DFTOWNER", 49,
-				"DECIMAL", 5, new Integer(0), 'N', 'Y', null, 'Y',
-				"LOAD # SEQ", 3, new Integer(5), null, schemaName, "0", null,
-				null, 10, null, "LOAD # SEQ", "WCLSEQ ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCMSGQ", tableName, "DFTOWNER", 50, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "MSGQ", 10, null,
-				new Integer(37), schemaName, " ", 10, 10, null, null, "MSGQ",
-				"WCMSGQ ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLD1", tableName, "DFTOWNER", 51,
-				"DECIMAL", 9, new Integer(0), 'N', 'Y', null, 'Y', "MISC", 5,
-				new Integer(9), null, schemaName, "0", null, null, 10, null,
-				"MISC FIELD - NOT USED", "WCFLD1 ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLD2", tableName, "DFTOWNER", 52,
-				"DECIMAL", 9, new Integer(0), 'N', 'Y', null, 'Y', "MISC", 5,
-				new Integer(9), null, schemaName, "0", null, null, 10, null,
-				"MISC FIELD - NOT USED", "WCFLD2 ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLD3", tableName, "DFTOWNER", 53, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "MISC", 10, null,
-				new Integer(37), schemaName, " ", 10, 10, null, null,
-				"MISC FIELD - NOT USED", "WCFLD3 ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLD4", tableName, "DFTOWNER", 54, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "MISC", 10, null,
-				new Integer(37), schemaName, " ", 10, 10, null, null,
-				"MISC FIELD - NOT USED", "WCFLD4 ", tableName, schemaName,
-				null, null, "NO", null, null, null, null, null, null, null,
-				null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCCSEQ", tableName, "DFTOWNER", 55, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "CMPY SEQ", 1, null, new Integer(
-						37), schemaName, " ", 1, 1, null, null,
-				"COMPANY SEQUENCE", "WCCSEQ ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCDSEQ", tableName, "DFTOWNER", 56, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "DIV SEQ", 1, null, new Integer(
-						37), schemaName, " ", 1, 1, null, null,
-				"DIVISION SEQUENCE", "WCDSEQ ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCDIV", tableName, "DFTOWNER", 57, "CHAR",
-				2, null, 'N', 'Y', null, 'Y', "DIV", 2, null, new Integer(37),
-				schemaName, " ", 2, 2, null, null, "DIVISION", "WCDIV ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCRSEQ", tableName, "DFTOWNER", 58, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "RGN SEQ", 1, null, new Integer(
-						37), schemaName, " ", 1, 1, null, null,
-				"REGION SEQUENCE", "WCRSEQ ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCSSEQ", tableName, "DFTOWNER", 59, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "SUB-RGN SEQ", 1, null,
-				new Integer(37), schemaName, " ", 1, 1, null, null,
-				"SUB-REGION SEQUENCE", "WCSSEQ ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCSRGN", tableName, "DFTOWNER", 60, "CHAR",
-				2, null, 'N', 'Y', null, 'Y', "SUB-RGN", 2, null, new Integer(
-						37), schemaName, " ", 2, 2, null, null, "SUB-REGION",
-				"WCSRGN ", tableName, schemaName, null, null, "NO", null, null,
-				null, null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCWRGN", tableName, "DFTOWNER", 61, "CHAR",
-				2, null, 'N', 'Y', null, 'Y', "WHSE/RPT REGN", 2, null,
-				new Integer(37), schemaName, " ", 2, 2, null, null,
-				"WHSE/REPORT REGION", "WCWRGN ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGP", tableName, "DFTOWNER", 62, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "PRICE/ COSTCO", 1, null,
-				new Integer(37), schemaName, " ", 1, 1, null, null,
-				"PRICE/COSTCO", "WCFLGP ", tableName, schemaName, null, null,
-				"NO", null, null, null, null, null, null, null, null, null,
-				'N', 'N'));
-		result.add(new ColumnInfo("WCSNM2", tableName, "DFTOWNER", 63, "CHAR",
-				10, null, 'N', 'Y', null, 'Y', "SHORT WHSE NAME #2", 10, null,
-				new Integer(37), schemaName, " ", 10, 10, null, null,
-				"SHORT WHSE NAME #2", "WCSNM2 ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGQ", tableName, "DFTOWNER", 64, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "WHSE/RPT REGN SEQ", 1, null,
-				new Integer(37), schemaName, " ", 1, 1, null, null,
-				"WHSE/REPORT REGION SEQUENCE", "WCFLGQ ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGR", tableName, "DFTOWNER", 65, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGR", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGR", "WCFLGR ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGS", tableName, "DFTOWNER", 66, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGS", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGS", "WCFLGS ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGT", tableName, "DFTOWNER", 67, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGT", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGT", "WCFLGT ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGU", tableName, "DFTOWNER", 68, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGU", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGU", "WCFLGU ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGV", tableName, "DFTOWNER", 69, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGV", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGV", "WCFLGV ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGW", tableName, "DFTOWNER", 70, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGW", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGW", "WCFLGW ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGX", tableName, "DFTOWNER", 71, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGX", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGX", "WCFLGX ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGY", tableName, "DFTOWNER", 72, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGY", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGY", "WCFLGY ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCFLGZ", tableName, "DFTOWNER", 73, "CHAR",
-				1, null, 'N', 'Y', null, 'Y', "FLGZ", 1, null, new Integer(37),
-				schemaName, " ", 1, 1, null, null, "FLGZ", "WCFLGZ ",
-				tableName, schemaName, null, null, "NO", null, null, null,
-				null, null, null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCWHSQ", tableName, "DFTOWNER", 74, "CHAR",
-				3, null, 'N', 'Y', null, 'Y', "SEQ", 3, null, new Integer(37),
-				schemaName, " ", 3, 3, null, null, "SEQ", "WCWHSQ ", tableName,
-				schemaName, null, null, "NO", null, null, null, null, null,
-				null, null, null, null, 'N', 'N'));
-		result.add(new ColumnInfo("WCWHS5", tableName, "DFTOWNER", 75,
-				"DECIMAL", 5, new Integer(0), 'N', 'Y', null, 'Y', "WHS5", 3,
-				new Integer(5), null, schemaName, "0", null, null, 10, null,
-				"WAREHOUSE NUMBER", "WCWHS5 ", tableName, schemaName, null,
-				null, "NO", null, null, null, null, null, null, null, null,
-				null, 'N', 'N'));
-		return result;
-
-	}
-
 
 	public void populateData(String tableName) {
-		this.tableName = tableName;
+		this.fileName = tableName;
 	}
 
 	public void populateData(String tableName, String recordFormatName) {
-		this.tableName = tableName;
+		this.fileName = tableName;
 		this.recordFormatName = recordFormatName;
 	}
 
 	public void populateData(String tableName, String recordFormatName,
 			String libraryName) {
-		this.tableName = tableName;
+		this.fileName = tableName;
 		this.recordFormatName = recordFormatName;
 		this.libraryName = libraryName;
 	}
@@ -2486,60 +426,341 @@ public class MockFileInfoProvider implements IFileInfoProvider {
 	public void setLibraryList(JobDescription jobd)
 			throws PropertyVetoException, AS400SecurityException,
 			ErrorCompletingRequestException, IOException, InterruptedException {
-		//Do nothing 
+		// Do nothing
 	}
 
 	public void setLibraryList(List<String> libl) throws PropertyVetoException,
 			AS400SecurityException, ErrorCompletingRequestException,
 			IOException, InterruptedException {
-		//Do nothing 
+		// Do nothing
 	}
 
 	public FileObject getColumns() {
 		FileObject result = new FileObject();
-		result.setFileName(tableName);
+		result.setFileName(fileName);
 		result.setLibraryName(libraryName);
 		RecordFormat theRec = new RecordFormat();
-		
-		
-		if (tableName.equalsIgnoreCase("INDATEP")) {
-			theRec.setFields(doIndatep(tableName, libraryName));
+
+		if (fileName.equalsIgnoreCase("INDATEP")) {
+			doIndatep(theRec);
 			theRec.setName("INDATER");
 			theRec.setRecordFormatID("4B13AA9698166");
 			theRec.setDescription("");
-		} else if (tableName.equalsIgnoreCase("INWCTLP")
-				|| tableName.equalsIgnoreCase("INWCTL32")
-				|| tableName.equalsIgnoreCase("INWCTL34")
-				|| tableName.equalsIgnoreCase("INWCTL35")) {
+		} else if (fileName.equalsIgnoreCase("INWCTLP")
+				|| fileName.equalsIgnoreCase("INWCTL32")
+				|| fileName.equalsIgnoreCase("INWCTL34")
+				|| fileName.equalsIgnoreCase("INWCTL35")) {
 			theRec.setName("INWCTLR");
 			theRec.setRecordFormatID("37DF503273004");
 			theRec.setDescription("");
-			theRec.setFields(doInwctlp(tableName, libraryName));
-		} else if (tableName.equalsIgnoreCase("INDDESP")) {
+			doInwctlp(theRec);
+		} else if (fileName.equalsIgnoreCase("INDDESP")) {
 			theRec.setName("INDDESR");
 			theRec.setRecordFormatID("324E6BBE2006A");
 			theRec.setDescription("");
-			theRec.setFields(doInddesp(tableName, libraryName));
-		} else if (tableName.equalsIgnoreCase("INCMPYP")
-				|| tableName.equalsIgnoreCase("INCMPY01")) {
+			doInddesp(theRec);
+		} else if (fileName.equalsIgnoreCase("INCMPYP")
+				|| fileName.equalsIgnoreCase("INCMPY01")) {
 			theRec.setName("INCMPYR");
 			theRec.setRecordFormatID("4C80D27B5BD2B");
 			theRec.setDescription("");
-			theRec.setFields(doIncmpyp(tableName, libraryName));
-		} else if (tableName.equalsIgnoreCase("INPSLI30")) {
+			doIncmpyp(theRec);
+		} else if (fileName.equalsIgnoreCase("INPSLI30")) {
 			theRec.setName("INPSLIR");
 			theRec.setRecordFormatID("41953557DF254");
 			theRec.setDescription("");
-			theRec.setFields(doInpslip(tableName, libraryName));
-		} else if (tableName.equalsIgnoreCase("INTSLIP")){
+			doInpslip(theRec);
+		} else if (fileName.equalsIgnoreCase("INTSLIP")) {
 			theRec.setName("INPSLIR");
 			theRec.setRecordFormatID("41953557DF254");
 			theRec.setDescription("");
-			theRec.setFields(doIntslip(tableName, libraryName));
+			doIntslip(theRec);
+		} else if (fileName.equalsIgnoreCase("IND034")) {
+			RecordFormat s01 = new RecordFormat();
+			s01.setName("S01");
+			s01.setRecordFormatID("0CB8E938C9266");
+			doS01(s01);
+			RecordFormat c01 = new RecordFormat();
+			c01.setName("C01");
+			c01.setRecordFormatID("1810778C0368A");
+			doC01(c01);
+			RecordFormat r02 = new RecordFormat();
+			r02.setName("R02");
+			r02.setRecordFormatID("1ADDEC898E143");
+			result.addRecordFormat(s01);
+			doR02(r02);
+			return result;
 		}
 		result.addRecordFormat(theRec);
 
 		return result;
 	}
 
+	private void doR02(RecordFormat input) {
+		ColumnInfo c1;
+		c1 = new ColumnInfo("*IN03", "A", "I", new Integer(0), new Integer(1), new Integer(1), new Integer(0), new Integer(0), "EXIT", "", new Integer(0), "", "", "", "", "*IN03", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN08", "A", "I", new Integer(0), new Integer(3), new Integer(1), new Integer(0), new Integer(0), "TOTAL", "", new Integer(0), "", "", "", "", "*IN08", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN12", "A", "I", new Integer(0), new Integer(4), new Integer(1), new Integer(0), new Integer(0), "DUP", "", new Integer(0), "", "", "", "", "*IN12", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN13", "A", "I", new Integer(0), new Integer(2), new Integer(1), new Integer(0), new Integer(0), "RESTART", "", new Integer(0), "", "", "", "", "*IN13", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN45", "A", "O", new Integer(1), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN45", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN79", "A", "O", new Integer(3), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN79", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN80", "A", "O", new Integer(7), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN80", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN81", "A", "O", new Integer(11), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN81", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN82", "A", "O", new Integer(4), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN82", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN83", "A", "O", new Integer(8), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN83", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN84", "A", "O", new Integer(12), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN84", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN85", "A", "O", new Integer(2), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN85", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN86", "A", "O", new Integer(5), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN86", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN87", "A", "O", new Integer(9), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN87", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN88", "A", "O", new Integer(13), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN88", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN90", "A", "O", new Integer(6), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN90", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN91", "A", "O", new Integer(10), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN91", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN92", "A", "O", new Integer(14), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN92", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4GMD1", "S", "B", new Integer(15), new Integer(5), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "R4GMD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(25), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4MDD1", "S", "B", new Integer(18), new Integer(8), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4MDD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(31), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4DDD1", "S", "B", new Integer(21), new Integer(11), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4DDD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(43), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4MUD1", "S", "B", new Integer(24), new Integer(14), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4MUD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(37), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4GMD2", "S", "B", new Integer(27), new Integer(17), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "R4GMD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(65), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4MDD2", "S", "B", new Integer(30), new Integer(20), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4MDD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(71), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4DDD2", "S", "B", new Integer(33), new Integer(23), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4DDD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(83), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4MUD2", "S", "B", new Integer(36), new Integer(26), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4MUD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(77), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4GMD3", "S", "B", new Integer(39), new Integer(29), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "R4GMD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(105), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4MDD3", "S", "B", new Integer(42), new Integer(32), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4MDD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(111), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4DDD3", "S", "B", new Integer(45), new Integer(35), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4DDD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(123), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("R4MUD3", "S", "B", new Integer(48), new Integer(38), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "R4MUD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(22), new Integer(117), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PSL1", "S", "O", new Integer(51), new Integer(0), new Integer(6), new Integer(6), new Integer(0), "", "4", new Integer(0), "", "", "", "", "D3PSL1", "", new Integer(0), new Integer(6), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(10), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PIN1", "S", "O", new Integer(57), new Integer(0), new Integer(6), new Integer(6), new Integer(0), "", "4", new Integer(0), "", "", "", "", "D3PIN1", "", new Integer(0), new Integer(6), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(17), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PMP1", "S", "O", new Integer(63), new Integer(0), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "D3PMP1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(25), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3MD1", "S", "O", new Integer(66), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3MD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(31), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3DD1", "S", "O", new Integer(69), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3DD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(43), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3MU1", "S", "O", new Integer(72), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3MU1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(37), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PSL2", "S", "O", new Integer(75), new Integer(0), new Integer(6), new Integer(6), new Integer(0), "", "4", new Integer(0), "", "", "", "", "D3PSL2", "", new Integer(0), new Integer(6), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(50), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PIN2", "S", "O", new Integer(81), new Integer(0), new Integer(6), new Integer(6), new Integer(0), "", "4", new Integer(0), "", "", "", "", "D3PIN2", "", new Integer(0), new Integer(6), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(57), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PMP2", "S", "O", new Integer(87), new Integer(0), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "D3PMP2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(65), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3MD2", "S", "O", new Integer(90), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3MD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(71), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3DD2", "S", "O", new Integer(93), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3DD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(83), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3MU2", "S", "O", new Integer(96), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3MU2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(77), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PSL3", "S", "O", new Integer(99), new Integer(0), new Integer(6), new Integer(6), new Integer(0), "", "4", new Integer(0), "", "", "", "", "D3PSL3", "", new Integer(0), new Integer(6), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(90), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PIN3", "S", "O", new Integer(105), new Integer(0), new Integer(6), new Integer(6), new Integer(0), "", "4", new Integer(0), "", "", "", "", "D3PIN3", "", new Integer(0), new Integer(6), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(97), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3PMP3", "S", "O", new Integer(111), new Integer(0), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "D3PMP3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(105), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3MD3", "S", "O", new Integer(114), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3MD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(111), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3DD3", "S", "O", new Integer(117), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3DD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(123), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D3MU3", "S", "O", new Integer(120), new Integer(0), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D3MU3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(24), new Integer(117), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+	}
+
+	private void doC01(RecordFormat input) {
+		ColumnInfo c1;
+		c1 = new ColumnInfo("*IN03", "A", "I", new Integer(0), new Integer(1), new Integer(1), new Integer(0), new Integer(0), "EXIT", "", new Integer(0), "", "", "", "", "*IN03", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN08", "A", "I", new Integer(0), new Integer(3), new Integer(1), new Integer(0), new Integer(0), "TOTAL", "", new Integer(0), "", "", "", "", "*IN08", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN12", "A", "I", new Integer(0), new Integer(4), new Integer(1), new Integer(0), new Integer(0), "DUP", "", new Integer(0), "", "", "", "", "*IN12", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN13", "A", "I", new Integer(0), new Integer(2), new Integer(1), new Integer(0), new Integer(0), "RESTART", "", new Integer(0), "", "", "", "", "*IN13", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN24", "A", "O", new Integer(2), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN24", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN26", "A", "I", new Integer(0), new Integer(5), new Integer(1), new Integer(0), new Integer(0), "Roll up key", "", new Integer(0), "", "", "", "", "*IN26", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN27", "A", "O", new Integer(3), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN27", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN28", "A", "O", new Integer(4), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN28", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN45", "A", "O", new Integer(1), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN45", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN49", "A", "B", new Integer(5), new Integer(6), new Integer(1), new Integer(0), new Integer(0), "UIN0018", "", new Integer(0), "", "", "", "", "*IN49", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN50", "A", "B", new Integer(6), new Integer(7), new Integer(1), new Integer(0), new Integer(0), "F/Yr, Dept, Beg Period are required", "", new Integer(0), "", "", "", "", "*IN50", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN51", "A", "B", new Integer(9), new Integer(8), new Integer(1), new Integer(0), new Integer(0), "Invalid Department Number !", "", new Integer(0), "", "", "", "", "*IN51", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN52", "A", "B", new Integer(7), new Integer(9), new Integer(1), new Integer(0), new Integer(0), "Invalid Beginning Period !", "", new Integer(0), "", "", "", "", "*IN52", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN53", "A", "B", new Integer(8), new Integer(10), new Integer(1), new Integer(0), new Integer(0), "Invalid Region/Warehouse !", "", new Integer(0), "", "", "", "", "*IN53", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN54", "A", "B", new Integer(10), new Integer(11), new Integer(1), new Integer(0), new Integer(0), "UIN0825", "", new Integer(0), "", "", "", "", "*IN54", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN55", "A", "B", new Integer(12), new Integer(13), new Integer(1), new Integer(0), new Integer(0), "UIN0002", "", new Integer(0), "", "", "", "", "*IN55", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("*IN59", "A", "B", new Integer(11), new Integer(12), new Integer(1), new Integer(0), new Integer(0), "UIN0828", "", new Integer(0), "", "", "", "", "*IN59", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1DSPR", "S", "B", new Integer(13), new Integer(14), new Integer(4), new Integer(4), new Integer(0), "", "", new Integer(0), "", "", "", "", "D1DSPR", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1OPTN", "A", "B", new Integer(17), new Integer(18), new Integer(3), new Integer(0), new Integer(0), "PGM OPTION CODE", "", new Integer(0), "", "", "", "", "D1OPTN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(1), new Integer(10), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("C1CMPY", "A", "B", new Integer(20), new Integer(21), new Integer(2), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "C1CMPY", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(1), new Integer(21), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1FSYR", "S", "B", new Integer(22), new Integer(23), new Integer(5), new Integer(5), new Integer(0), "FISCAL YEAR _CCYY", "4", new Integer(0), "", "", "", "", "D1FSYR", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(2), new Integer(15), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1DEPT", "S", "B", new Integer(27), new Integer(28), new Integer(2), new Integer(2), new Integer(0), "DEPARTMENT NUMBER", "Z", new Integer(0), "", "", "", "", "D1DEPT", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(2), new Integer(28), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1PER", "S", "B", new Integer(29), new Integer(30), new Integer(2), new Integer(2), new Integer(0), "", "Z", new Integer(0), "", "", "", "", "D1PER", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(2), new Integer(50), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1REGN", "A", "B", new Integer(31), new Integer(32), new Integer(3), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "D1REGN", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(2), new Integer(62), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1WHS1", "S", "B", new Integer(34), new Integer(35), new Integer(5), new Integer(5), new Integer(0), "WAREHOUSE NUMBER", "7", new Integer(0), "", "", "", "", "D1WHS1", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(2), new Integer(73), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1PER1", "S", "O", new Integer(39), new Integer(0), new Integer(2), new Integer(2), new Integer(0), "Period #1", "Z", new Integer(0), "", "", "", "", "D1PER1", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(5), new Integer(18), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1PER2", "S", "O", new Integer(41), new Integer(0), new Integer(2), new Integer(2), new Integer(0), "Period #2", "Z", new Integer(0), "", "", "", "", "D1PER2", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(5), new Integer(58), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+		c1 = new ColumnInfo("D1PER3", "S", "O", new Integer(43), new Integer(0), new Integer(2), new Integer(2), new Integer(0), "Period #3", "Z", new Integer(0), "", "", "", "", "D1PER3", "", new Integer(0), new Integer(2), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(5), new Integer(98), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		input.getFields().add(c1);
+	}
+
+	private void doS01(RecordFormat s01) {
+		ColumnInfo c1;
+		c1 = new ColumnInfo("*IN03", "A", "I", new Integer(0), new Integer(1), new Integer(1), new Integer(0), new Integer(0), "EXIT", "", new Integer(0), "", "", "", "", "*IN03", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN08", "A", "I", new Integer(0), new Integer(3), new Integer(1), new Integer(0), new Integer(0), "TOTAL", "", new Integer(0), "", "", "", "", "*IN08", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN12", "A", "I", new Integer(0), new Integer(4), new Integer(1), new Integer(0), new Integer(0), "DUP", "", new Integer(0), "", "", "", "", "*IN12", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN13", "A", "I", new Integer(0), new Integer(2), new Integer(1), new Integer(0), new Integer(0), "RESTART", "", new Integer(0), "", "", "", "", "*IN13", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN21", "A", "I", new Integer(0), new Integer(5), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN21", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN25", "A", "O", new Integer(2), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN25", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN27", "A", "O", new Integer(3), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN27", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN45", "A", "O", new Integer(1), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN45", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN71", "A", "O", new Integer(4), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN71", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN72", "A", "O", new Integer(10), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN72", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN73", "A", "O", new Integer(16), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN73", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN75", "A", "O", new Integer(5), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN75", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN76", "A", "O", new Integer(11), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN76", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN77", "A", "O", new Integer(17), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN77", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN79", "A", "O", new Integer(6), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN79", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN80", "A", "O", new Integer(12), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN80", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN81", "A", "O", new Integer(18), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN81", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN82", "A", "O", new Integer(7), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN82", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN83", "A", "O", new Integer(13), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN83", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN84", "A", "O", new Integer(19), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN84", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN86", "A", "O", new Integer(8), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN86", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN87", "A", "O", new Integer(14), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN87", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN88", "A", "O", new Integer(20), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN88", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN90", "A", "O", new Integer(9), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN90", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN91", "A", "O", new Integer(15), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN91", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("*IN92", "A", "O", new Integer(21), new Integer(0), new Integer(1), new Integer(0), new Integer(0), "", "", new Integer(0), "", "", "", "", "*IN92", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1REG2", "A", "B", new Integer(22), new Integer(6), new Integer(2), new Integer(0), new Integer(0), "REGION", "", new Integer(0), "", "", "", "", "D1REG2", "", new Integer(0), new Integer(0), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1HSL1", "S", "B", new Integer(24), new Integer(8), new Integer(9), new Integer(9), new Integer(0), "HIDDEN SALES", "", new Integer(0), "", "", "", "", "D1HSL1", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1HSL2", "S", "B", new Integer(33), new Integer(17), new Integer(9), new Integer(9), new Integer(0), "HIDDEN SALES", "", new Integer(0), "", "", "", "", "D1HSL2", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1HSL3", "S", "B", new Integer(42), new Integer(26), new Integer(9), new Integer(9), new Integer(0), "HIDDEN SALES", "", new Integer(0), "", "", "", "", "D1HSL3", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1HIN1", "S", "B", new Integer(51), new Integer(35), new Integer(9), new Integer(9), new Integer(0), "HIDDEN INV", "", new Integer(0), "", "", "", "", "D1HIN1", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1HIN2", "S", "B", new Integer(60), new Integer(44), new Integer(9), new Integer(9), new Integer(0), "HIDDEN INV", "", new Integer(0), "", "", "", "", "D1HIN2", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1HIN3", "S", "B", new Integer(69), new Integer(53), new Integer(9), new Integer(9), new Integer(0), "HIDDEN INV", "", new Integer(0), "", "", "", "", "D1HIN3", "", new Integer(0), new Integer(9), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(-1), new Integer(-1), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1WHS2", "S", "O", new Integer(78), new Integer(62), new Integer(5), new Integer(5), new Integer(0), "WAREHOUSE NUMBER", "7", new Integer(0), "", "", "", "", "D1WHS2", "", new Integer(0), new Integer(5), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(3), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PSL1", "S", "B", new Integer(83), new Integer(67), new Integer(4), new Integer(4), new Integer(0), "Plan Sales", "4", new Integer(0), "", "", "", "", "D1PSL1", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(12), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PIN1", "S", "B", new Integer(87), new Integer(71), new Integer(4), new Integer(4), new Integer(0), "Plan Inventory", "4", new Integer(0), "", "", "", "", "D1PIN1", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(19), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PMP1", "S", "B", new Integer(91), new Integer(75), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "D1PMP1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(25), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1MD1", "S", "B", new Integer(94), new Integer(78), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1MD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(31), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1DD1", "S", "B", new Integer(97), new Integer(81), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1DD1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(43), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1MU1", "S", "B", new Integer(100), new Integer(84), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1MU1", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(37), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PSL2", "S", "B", new Integer(103), new Integer(87), new Integer(4), new Integer(4), new Integer(0), "Plan Sales", "4", new Integer(0), "", "", "", "", "D1PSL2", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(52), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PIN2", "S", "B", new Integer(107), new Integer(91), new Integer(4), new Integer(4), new Integer(0), "Plan Inventory", "4", new Integer(0), "", "", "", "", "D1PIN2", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(59), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PMP2", "S", "B", new Integer(111), new Integer(95), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "D1PMP2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(65), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1MD2", "S", "B", new Integer(114), new Integer(98), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1MD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(71), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1DD2", "S", "B", new Integer(117), new Integer(101), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1DD2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(83), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1MU2", "S", "B", new Integer(120), new Integer(104), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1MU2", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(77), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PSL3", "S", "B", new Integer(123), new Integer(107), new Integer(4), new Integer(4), new Integer(0), "Plan Sales", "4", new Integer(0), "", "", "", "", "D1PSL3", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(92), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PIN3", "S", "B", new Integer(127), new Integer(111), new Integer(4), new Integer(4), new Integer(0), "Plan Inventory", "4", new Integer(0), "", "", "", "", "D1PIN3", "", new Integer(0), new Integer(4), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(99), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1PMP3", "S", "B", new Integer(131), new Integer(115), new Integer(3), new Integer(3), new Integer(1), "", "4", new Integer(0), "", "", "", "", "D1PMP3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(105), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1MD3", "S", "B", new Integer(134), new Integer(118), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1MD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(111), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1DD3", "S", "B", new Integer(137), new Integer(121), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1DD3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(123), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+		c1 = new ColumnInfo("D1MU3", "S", "B", new Integer(140), new Integer(124), new Integer(3), new Integer(3), new Integer(2), "", "4", new Integer(0), "", "", "", "", "D1MU3", "", new Integer(0), new Integer(3), "0", "0", "", "", "0", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), "", "", "", "", "", "", "", "", new Integer(8), new Integer(117), "0", "0", "", "", new BigDecimal(0), new BigDecimal(0), new Integer(0), new BigDecimal(0), new BigDecimal(0), new Integer(0), "", "0", "", "", ""); 
+		s01.getFields().add(c1);
+	}
 }
