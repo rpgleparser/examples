@@ -76,6 +76,10 @@ public class Symbol implements Comparator<Symbol>{
 
 	public static final String SO_O_SPECS = "O-SPECS";
 
+	public static final String DT_PREPROCESSOR_SYMBOL = "PREPROCESSOR_SYMBOL";
+
+	public static final String SO_DEFINE = "/DEFINE";
+
 	public static void as400Attr2rpg(ColumnInfo col, Symbol sym) {
 		if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_BINARY)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
@@ -161,6 +165,8 @@ public class Symbol implements Comparator<Symbol>{
 	}
 	private Map<String, String>attributes = new HashMap<String, String>();
 	private String name;
+
+	private boolean active;
 	public void addAttribute(String category, String value) {
 		if (attributes.containsKey(category)){
 			// Do nothing
@@ -198,6 +204,9 @@ public class Symbol implements Comparator<Symbol>{
 			sb.append("\t\tKey = " + e.getKey() + "\t Value = " + e.getValue() + newline);
 		}
 		return sb.toString();
+	}
+	public void setActive(boolean b) {
+		this.active = b;
 	}
 
 }

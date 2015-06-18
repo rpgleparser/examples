@@ -370,6 +370,15 @@ public class SymbolTableBuilder extends LoggingListener {
 	@Override
 	public void enterDirective(DirectiveContext ctx) {
 		super.enterDirective(ctx);
+		if (ctx.DIR_DEFINE() != null){
+			int i = ctx.getChildCount();
+			Symbol s = new Symbol();
+			s.setName(ctx.getChild(i-2).getText());
+			s.addAttribute(Symbol.CAT_DATA_TYPE, Symbol.DT_PREPROCESSOR_SYMBOL);
+			s.addAttribute(Symbol.CAT_SYMBOL_ORIGIN, Symbol.SO_DEFINE);
+			s.setActive(true);
+			st.addSymbolToScope(currentScope, s);
+		}
 	}
 
 	@Override
