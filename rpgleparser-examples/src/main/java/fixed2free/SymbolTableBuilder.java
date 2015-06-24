@@ -49,7 +49,15 @@ import org.rpgleparser.RpgParser.CsZ_SUBContext;
 import org.rpgleparser.RpgParser.Cspec_fixedContext;
 import org.rpgleparser.RpgParser.Cspec_fixed_standard_partsContext;
 import org.rpgleparser.RpgParser.Dcl_dsContext;
-import org.rpgleparser.RpgParser.DirectiveContext;
+import org.rpgleparser.RpgParser.Dir_copyContext;
+import org.rpgleparser.RpgParser.Dir_defineContext;
+import org.rpgleparser.RpgParser.Dir_elseContext;
+import org.rpgleparser.RpgParser.Dir_elseifContext;
+import org.rpgleparser.RpgParser.Dir_endifContext;
+import org.rpgleparser.RpgParser.Dir_eofContext;
+import org.rpgleparser.RpgParser.Dir_ifContext;
+import org.rpgleparser.RpgParser.Dir_includeContext;
+import org.rpgleparser.RpgParser.Dir_undefineContext;
 import org.rpgleparser.RpgParser.DspecContext;
 import org.rpgleparser.RpgParser.Dspec_fixedContext;
 import org.rpgleparser.RpgParser.Fspec_fixedContext;
@@ -63,10 +71,10 @@ import org.rpgleparser.RpgParser.ProcedureContext;
 import org.rpgleparser.RpgParser.ResultTypeContext;
 
 import examples.loggingListener.LoggingListener;
+import fixed2free.integration.ColumnInfo;
 import fixed2free.integration.FileObject;
 import fixed2free.integration.IFileInfoProvider;
 import fixed2free.integration.MockFileInfoProvider;
-import fixed2free.integration.ColumnInfo;
 import fixed2free.integration.RecordFormat;
 
 public class SymbolTableBuilder extends LoggingListener {
@@ -368,16 +376,64 @@ public class SymbolTableBuilder extends LoggingListener {
 	}
 
 	@Override
-	public void enterDirective(DirectiveContext ctx) {
-		super.enterDirective(ctx);
-		if (ctx.DIR_DEFINE() != null){
-			int i = ctx.getChildCount();
-			Symbol s = new Symbol();
-			s.setName(ctx.getChild(i-2).getText());
-			s.addAttribute(Symbol.CAT_DATA_TYPE, Symbol.DT_PREPROCESSOR_SYMBOL);
-			s.addAttribute(Symbol.CAT_SYMBOL_ORIGIN, Symbol.SO_DEFINE);
-			s.setActive(true);
-			st.addSymbolToScope(currentScope, s);
+	public void enterDir_copy(Dir_copyContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDir_copy(ctx);
+	}
+
+	@Override
+	public void enterDir_define(Dir_defineContext ctx) {
+		Symbol s = new Symbol();
+		s.setName(ctx.name.getText());
+		s.addAttribute(Symbol.CAT_DATA_TYPE, Symbol.DT_PREPROCESSOR_SYMBOL);
+		s.addAttribute(Symbol.CAT_SYMBOL_ORIGIN, Symbol.SO_DEFINE);
+		s.setActive(true);
+		st.addSymbolToScope(currentScope, s);
+
+	}
+
+	@Override
+	public void enterDir_else(Dir_elseContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDir_else(ctx);
+	}
+
+	@Override
+	public void enterDir_elseif(Dir_elseifContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDir_elseif(ctx);
+	}
+
+	@Override
+	public void enterDir_endif(Dir_endifContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDir_endif(ctx);
+	}
+
+	@Override
+	public void enterDir_eof(Dir_eofContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDir_eof(ctx);
+	}
+
+	@Override
+	public void enterDir_if(Dir_ifContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDir_if(ctx);
+	}
+
+	@Override
+	public void enterDir_include(Dir_includeContext ctx) {
+		// TODO Auto-generated method stub
+		super.enterDir_include(ctx);
+	}
+
+	@Override
+	public void enterDir_undefine(Dir_undefineContext ctx) {
+		super.enterDir_undefine(ctx);
+		Symbol temp = st.getSymbolFromScope(global, ctx.name.getText());
+		if (temp != null){
+			temp.setActive(false);
 		}
 	}
 
@@ -442,7 +498,6 @@ public class SymbolTableBuilder extends LoggingListener {
 				rec = e.getValue();
 				
 				List<ColumnInfo> temp = rec.getFields();
-				//TODO
 				String keywords = ""; //ctx.FS_Keywords().getText().toLowerCase();
 				if (keywords.contains("rename(")){
 					int startpos = keywords.indexOf("rename(");
@@ -473,7 +528,7 @@ public class SymbolTableBuilder extends LoggingListener {
 		super.enterHspec_fixed(ctx);
 		lastSpec = "H";
 	}
-
+	
 	@Override
 	public void enterIspec_fixed(Ispec_fixedContext ctx) {
 		super.enterIspec_fixed(ctx);
@@ -537,7 +592,7 @@ public class SymbolTableBuilder extends LoggingListener {
 		String keywords = expandKeywords(keyword);
 		setDataType(text, theSym, keywords);
 	}
-	
+
 	private void setDataType(String rpgDataType, Symbol theSym, String keywords) {
 		if (rpgDataType.equalsIgnoreCase("A")){
 			theSym.addAttribute(Symbol.CAT_DATA_TYPE, Symbol.DT_ALPHANUM);
