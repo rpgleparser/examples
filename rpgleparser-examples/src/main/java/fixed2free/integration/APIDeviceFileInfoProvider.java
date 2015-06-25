@@ -1,4 +1,4 @@
-package fixed2free;
+package fixed2free.integration;
 
 import com.ibm.as400.access.AS400Bin2;
 import com.ibm.as400.access.AS400Bin4;
@@ -6,8 +6,6 @@ import com.ibm.as400.access.AS400DataType;
 import com.ibm.as400.access.AS400PackedDecimal;
 import com.ibm.as400.access.AS400Structure;
 import com.ibm.as400.access.AS400Text;
-
-import fixed2free.integration.DeviceFileInfoProvider;
 
 public class APIDeviceFileInfoProvider implements DeviceFileInfoProvider {
 
