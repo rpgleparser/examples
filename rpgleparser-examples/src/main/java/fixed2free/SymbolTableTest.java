@@ -11,6 +11,11 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.rpgleparser.RpgLexer;
 import org.rpgleparser.RpgParser;
 
+/**
+ * Run a test of the SymbolTableBuilder
+ * @author Eric N. Wilson
+ *
+ */
 public class SymbolTableTest {
 	public static  void main(String[] args){
 		try {

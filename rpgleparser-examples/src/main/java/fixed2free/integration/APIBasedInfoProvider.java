@@ -2,10 +2,8 @@ package fixed2free.integration;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.rpgleparser.api.LibraryList;
 import org.rpgleparser.api.ListApiCallback;
 import org.rpgleparser.api.LFLD.FLDL0100;
@@ -21,6 +19,12 @@ import com.ibm.as400.access.ErrorCompletingRequestException;
 import com.ibm.as400.access.JobDescription;
 import com.ibm.as400.access.ProgramCall;
 
+/**
+ * Uses the AS400 APIS (QUSLOBJ, QUSLRCD, QUSLFLD) to return information about a given file
+ * be it a display file, printer file, or database file
+ * @author Eric N. Wilson
+ *
+ */
 public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback {
 	private static final String STATE_OBJECT_RESOLUTION = "Object resolution";
 	private static final String STATE_RECORD_RESOLUTION = "Record resolution";
@@ -74,6 +78,10 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 	
 	private int fieldNumber;
 
+	/**
+	 * Default constructor, creates an AS400 object and associates it with the objects needed
+	 * for this class to function
+	 */
 	public APIBasedInfoProvider() {
 		theAS400 = new AS400();
 		jobRelated = new ProgramCall(theAS400);
@@ -84,6 +92,10 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 
 	}
 
+	/**
+	 * Constructor taking an AS400 instance as input. All classes will use the provided AS400 object
+	 * @param as400
+	 */
 	public APIBasedInfoProvider(AS400 as400) {
 		theAS400 = as400;
 		jobRelated = new ProgramCall(theAS400);
@@ -93,18 +105,31 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 		recList = new QUSLRCD(as400);
 	}
 
+	/**
+	 * Try to connect to the AS400 command service
+	 * @throws AS400SecurityException
+	 * @throws IOException
+	 */
 	public void connect() throws AS400SecurityException, IOException {
 		if (!theAS400.isConnected()) {
 			theAS400.connectService(AS400.COMMAND);
 		}
 	}
 
+	/**
+	 * Creates a ColumnInfo object based on the data contained in the FLDL0100 object
+	 * @param listEntry
+	 */
 	private void doFields(byte[] listEntry) {
 		FLDL0100 myObj = new FLDL0100(listEntry);
 		ColumnInfo ci = new ColumnInfo(myObj);
 		theRec.getFields().add(ci);
 	}
 
+	/**
+	 * Creates a File Object based on the data contained in the listEntry
+	 * @param listEntry
+	 */
 	private void doObject(byte[] listEntry) {
 		OBJL0200 myObj = new OBJL0200(listEntry);
 		theFile = new FileObject();
@@ -113,6 +138,10 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 		theFile.setFileDescription(myObj.getTextDescription());
 	}
 
+	/**
+	 * Creates a record format based on the data contained in the list entry
+	 * @param listEntry
+	 */
 	private void doRecord(byte[] listEntry) {
 		RCDL0200 myObj = new RCDL0200(listEntry);
 		RecordFormat aRecordFormat = new RecordFormat();
@@ -221,7 +250,7 @@ public class APIBasedInfoProvider implements IFileInfoProvider, ListApiCallback 
 			fldList.setUserSpaceName("FLDLSTSPC");
 			fldList.setUserSpaceInitialSize(1024);
 			fldList.getTheListHandler().registerCallback(this);
-			fieldNumber = 1;
+			fieldNumber += 1;
 			fldList.dowork();
 		}
 		fieldNumber = 0;

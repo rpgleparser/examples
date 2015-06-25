@@ -7,6 +7,12 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 
 import com.ibm.as400.access.AS400;
 
+/**
+ * This class allows me to test without being connected to the AS400 by conforming to the same
+ * API as the connected version does.
+ * @author Eric N. Wilson
+ *
+ */
 public class MockSourceFileInputStream extends AbstractSourceFileInputStream
 		implements ISourceFileInputStream {
 

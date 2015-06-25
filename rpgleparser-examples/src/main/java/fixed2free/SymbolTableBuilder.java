@@ -77,6 +77,11 @@ import fixed2free.integration.IFileInfoProvider;
 import fixed2free.integration.MockFileInfoProvider;
 import fixed2free.integration.RecordFormat;
 
+/**
+ * An example of how one could build a symbol table for RPG using the listener
+ * @author Eric N. Wilson
+ *
+ */
 public class SymbolTableBuilder extends LoggingListener {
 	private Scope currentScope;
 	private Scope global;
@@ -86,6 +91,11 @@ public class SymbolTableBuilder extends LoggingListener {
 	private Vocabulary voc;
 	private CommonTokenStream ts;
 	
+	/**
+	 * Constructs a SymbolTableBuilder using a RpgLexer and a CommonTokenStream
+	 * @param lex
+	 * @param toks
+	 */
 	public SymbolTableBuilder(RpgLexer lex, CommonTokenStream toks) {
 		voc = lex.getVocabulary();
 		ts = toks;
@@ -95,6 +105,10 @@ public class SymbolTableBuilder extends LoggingListener {
 		tip = new MockFileInfoProvider();
 	}
 
+	/**
+	 * Check for a result field 
+	 * @param parts
+	 */
 	private void checkResult(Cspec_fixed_standard_partsContext parts) {
 		if (parts != null){
 			ResultTypeContext result = parts.result;
@@ -104,6 +118,10 @@ public class SymbolTableBuilder extends LoggingListener {
 		}
 	}
 
+	/**
+	 * Format a list of strings reporting the data from each scope
+	 * @return
+	 */
 	public List<String> collectOutput() {
 		ArrayList<String> result = new ArrayList<String>();
 		List<Scope> temp2 = st.getAllScopes();
@@ -118,6 +136,10 @@ public class SymbolTableBuilder extends LoggingListener {
 		return result;
 	}
 
+	/**
+	 * Print out a context for debugging purposes
+	 * @param ctx
+	 */
 	private void debugContext(ParserRuleContext ctx) {
 		List<CommonToken> myList = getTheTokens(ctx);
 		for (CommonToken ct : myList) {
@@ -128,6 +150,12 @@ public class SymbolTableBuilder extends LoggingListener {
 		}
 	}
 
+	/**
+	 * Check to see if the result is a C-Spec definition, if so, then create a symbol 
+	 * @param result
+	 * @param length
+	 * @param decpos
+	 */
 	private void doResultCheck(ResultTypeContext result, Token length,
 			Token decpos) {
 		boolean lengthFound = !length.getText().trim().isEmpty();
@@ -556,6 +584,11 @@ public class SymbolTableBuilder extends LoggingListener {
 		
 	}
 
+	/**
+	 * Convert a list of KeywordContexts to a string
+	 * @param list
+	 * @return
+	 */
 	private String expandKeywords(List<KeywordContext> list) {
 		String result = "";
 		for (KeywordContext k : list){
@@ -564,6 +597,11 @@ public class SymbolTableBuilder extends LoggingListener {
 		return result;
 	}
 
+	/**
+	 * Recursively get the tokens from ParseTree
+	 * @param parseTree
+	 * @param tokenList
+	 */
 	private void fillTokenList(ParseTree parseTree, List<CommonToken> tokenList) {
 		for (int i = 0; i < parseTree.getChildCount(); i++) {
 			ParseTree payload = parseTree.getChild(i);
@@ -577,20 +615,35 @@ public class SymbolTableBuilder extends LoggingListener {
 		}
 	}
 
+	/**
+	 * Return the Symbol Table that this is working with
+	 * @return
+	 */
 	public SymbolTable getSymbolTable() {
 		return st;
 	}
 
+	/**
+	 * Gets a list of tokens from a ParserRuleContext
+	 * @param ctx
+	 * @return
+	 */
 	private List<CommonToken> getTheTokens(ParserRuleContext ctx) {
 		List<CommonToken> myList = new ArrayList<CommonToken>();
 		fillTokenList(ctx, myList);
 		return myList;
 	}
 
-	private void setDataType(String text, Symbol theSym,
+	/**
+	 * Sets the data type from the rpgDataType and keywords and stores them in theSym
+	 * @param rpgDataType
+	 * @param theSym
+	 * @param keyword A list of Keyword contexts 
+	 */
+	private void setDataType(String rpgDataType, Symbol theSym,
 			List<KeywordContext> keyword) {
 		String keywords = expandKeywords(keyword);
-		setDataType(text, theSym, keywords);
+		setDataType(rpgDataType, theSym, keywords);
 	}
 
 	private void setDataType(String rpgDataType, Symbol theSym, String keywords) {
@@ -651,6 +704,13 @@ public class SymbolTableBuilder extends LoggingListener {
 
 	}
 
+	/**
+	 * Sets the definition type based on the RPG definition type, and keywords
+	 * @param defType
+	 * @param keywords
+	 * @param theSym
+	 * @param kctx
+	 */
 	private void setDefinitionType(String defType, String keywords,
 			Symbol theSym, List<KeywordContext> kctx) {
 		Keyword_dimContext tmp = null;
@@ -686,6 +746,13 @@ public class SymbolTableBuilder extends LoggingListener {
 		}
 	}
 
+	/**
+	 * Derive the length of a field based on the component fields
+	 * @param fromPosition
+	 * @param toPosition
+	 * @param theSym
+	 * @param kctx
+	 */
 	private void setLength(String fromPosition, String toPosition, Symbol theSym, List<KeywordContext> kctx) {
 		Keyword_dimContext tmp = null;
 		int dimension = 0;

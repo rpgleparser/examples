@@ -7,6 +7,16 @@ import java.util.Map;
 import fixed2free.integration.IFileInfoProvider;
 import fixed2free.integration.ColumnInfo;
 
+/**
+ * A simple representation of a compiler symbol, be that variables, constants, pre-processor symbols, 
+ * or other constructs that have a name and optional datatype and value. Some key attributes are 
+ * predefined, and there is a mechanism to support arbitrary others.<br>
+ * I am using static strings rather than enums because I want the user to be able to 
+ * extend what is held in the list of symbol attributes.
+ * The list of symbols that are predefined start with CAT_, DF_, DT_, SO_
+ * @author Eric N. Wilson
+ *
+ */
 public class Symbol implements Comparator<Symbol>{
 	public static final String CAT_ARRAY_ELEMENT_COUNT = "ARRAY_ELEMS";
 
@@ -80,6 +90,12 @@ public class Symbol implements Comparator<Symbol>{
 
 	public static final String SO_DEFINE = "/DEFINE";
 
+	/**
+	 * Sets the Data Type, Length and possibly Decimal positions or CCSID if relevant. The 
+	 * ColumnInfo should have been provided by the APIBasedInfoProvider.
+	 * @param col A ColumnInfo instance that is used to derive the attributes for the symbol
+	 * @param sym The symbol to be modified
+	 */
 	public static void as400Attr2rpg(ColumnInfo col, Symbol sym) {
 		if (col.getDataType().equalsIgnoreCase(IFileInfoProvider.AS400_BINARY)){
 			sym.addAttribute(CAT_DATA_TYPE, DT_INTEGER);
@@ -122,6 +138,12 @@ public class Symbol implements Comparator<Symbol>{
 			sym.addAttribute(CAT_VARYING_LENGTH, "TRUE");
 		}
 	}
+	
+	/**
+	 * Returns the RPG data type for a given SQL data type
+	 * @param dataType
+	 * @return
+	 */
 	public static String sqlDataType2rpg(String dataType) {
 		String result = null;
 		if (dataType.equalsIgnoreCase(IFileInfoProvider.SQL_BIGINT)){
@@ -167,6 +189,13 @@ public class Symbol implements Comparator<Symbol>{
 	private String name;
 
 	private boolean active;
+	
+	/**
+	 * Add an attribute (datatype, size, color, what have you) to a symbol.<br> 
+	 * <code>Note: Right now we only allow the attribute to be stored once in the map</code>
+	 * @param category Predefined categories are the constants prefixed with CAT_
+	 * @param value The string representation of the value for the category
+	 */
 	public void addAttribute(String category, String value) {
 		if (attributes.containsKey(category)){
 			// Do nothing
@@ -174,27 +203,63 @@ public class Symbol implements Comparator<Symbol>{
 			attributes.put(category, value);
 		}
 	}
+	
 	public int compare(Symbol o1, Symbol o2) {
 		return o1.getName().compareTo(o2.getName());
 	}
+	
+	/**
+	 * Returns the attribute corresponding the the provided key
+	 * @param key Usually one of the predefined constants in this class
+	 * @return The string representation of the value
+	 */
 	public String getAnAttribute(String key) {
 		return attributes.get(key);
 	}
+	
+	/**
+	 * Get a map of attributes for this symbol. Be aware that I am currently passing back
+	 * the internal map, so if you make changes to the data if will affect the symbol
+	 * @return A map of attributes
+	 */
 	public Map<String, String> getAttributes() {
 		return attributes;
 	}
+	
+	/**
+	 * @return The name of the symbol
+	 */
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Does this symbol have an attribute for the provided category
+	 * @param category
+	 * @return
+	 */
 	public boolean hasAttribute(String category) {
 		return attributes.containsKey(category);
 	}
+	
+	/**
+	 * Gives you the opportunity to mess things up by replacing the map that was created by this class
+	 * with one of your own. Use at your own risk
+	 * @param attributes
+	 */
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
 	}
+	
+	
+	/**
+	 * Set the name of the symbol
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -205,6 +270,13 @@ public class Symbol implements Comparator<Symbol>{
 		}
 		return sb.toString();
 	}
+	
+	
+	/**
+	 * Preprocessor symbols can come to be and go out of existence in a program. Right now
+	 * I am soft deleting a symbol by setting it to be inactive.
+	 * @param b
+	 */
 	public void setActive(boolean b) {
 		this.active = b;
 	}

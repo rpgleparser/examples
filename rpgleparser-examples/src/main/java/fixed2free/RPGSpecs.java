@@ -2,14 +2,33 @@ package fixed2free;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * An utility class to create and process fixed format specs
+ * @author Eric N. Wilson
+ *
+ */
 public class RPGSpecs {
-	public static String formatHSpec() {
-		String result = "";
-
-		return result;
-
-	}
-
+	
+	/**
+	 * Create an F Spec from the various components
+	 * @param fileName
+	 * @param fileType
+	 * @param fileDesignation
+	 * @param endOfFile
+	 * @param fileAddition
+	 * @param sequence
+	 * @param fileFormat
+	 * @param recordLength
+	 * @param limitsProcessing
+	 * @param keyLength
+	 * @param recordAddressType
+	 * @param fileOrganization
+	 * @param device
+	 * @param keywords
+	 * @param comments
+	 * @return
+	 * @throws RPGFormatException
+	 */
 	public static String formatFSpec(String fileName, String fileType,
 			String fileDesignation, String endOfFile, String fileAddition,
 			String sequence, String fileFormat, String recordLength,
@@ -105,6 +124,13 @@ public class RPGSpecs {
 		return result;
 	}
 
+	/**
+	 * Formats a F-Spec continuation line given a string of keywords and comment 
+	 * @param keywords
+	 * @param comment
+	 * @return
+	 * @throws RPGFormatException
+	 */
 	public static String formatFCont(String keywords, String comment)
 			throws RPGFormatException {
 		String result = "";
@@ -123,6 +149,21 @@ public class RPGSpecs {
 		return result;
 	}
 
+	/**
+	 * Create an D-Spec from the various components
+	 * @param name
+	 * @param externalDescription
+	 * @param typeOfDataStructure
+	 * @param definitionType
+	 * @param fromPosition
+	 * @param toPosition
+	 * @param internalDataType
+	 * @param decimalPositions
+	 * @param keywords
+	 * @param comment
+	 * @return
+	 * @throws RPGFormatException
+	 */
 	public static String formatDSpec(String name, String externalDescription,
 			String typeOfDataStructure, String definitionType,
 			String fromPosition, String toPosition, String internalDataType, String decimalPositions, String keywords, String comment)
@@ -188,6 +229,25 @@ public class RPGSpecs {
 		return result;
 
 	}
+	
+	/**
+	 * Create an C-Spec from the various components
+	 * @param controlLevel
+	 * @param not
+	 * @param indicator
+	 * @param factor1
+	 * @param opCode
+	 * @param factor2
+	 * @param result
+	 * @param length
+	 * @param decPos
+	 * @param hi
+	 * @param lo
+	 * @param eq
+	 * @param comments
+	 * @return
+	 * @throws RPGFormatException
+	 */
 	public static String formatCSpec(String controlLevel, String not, String indicator, String factor1, String opCode, String factor2, String result, String length, String decPos, String hi, String lo, String eq, String comments ) throws RPGFormatException{
 		//Check field lengths of input parms
 		if (controlLevel == null || controlLevel.trim().length() > 2){
